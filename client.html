@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PrintTrack - Portal Tracking Pesanan Klien</title>
+  <title>PrintTrack - 6. Klien Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -17,49 +17,127 @@
     }
     tailwind.config = {
       darkMode: 'class',
-      theme: { extend: { colors: { brandDark: '#0b0f19', brandCard: '#151c2e' } } }
+      theme: {
+        extend: {
+          colors: { brandDark: '#0b0f19', brandCard: '#151c2e' }
+        }
+      }
     }
   </script>
 </head>
 <body class="bg-slate-100 dark:bg-brandDark text-slate-800 dark:text-slate-100 font-sans min-h-screen transition-colors duration-300">
 
-  <!-- Header Mobile Responsive -->
+  <!-- Header / Navigation Mobile Responsive -->
   <header class="border-b border-slate-300 dark:border-slate-800 bg-white/80 dark:bg-slate-900/50 backdrop-blur sticky top-0 z-50 transition-colors">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center font-bold text-cyan-600 dark:text-cyan-400">PT</div>
-        <h1 class="text-base sm:text-lg font-bold tracking-wider text-slate-900 dark:text-white">PRINT<span class="text-cyan-600 dark:text-cyan-400">TRACK</span></h1>
-      </div>
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
       
-      <div class="flex items-center gap-2">
-        <a href="dashboard.html" class="text-[11px] bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-amber-400">📊 Dashboard</a>
+      <!-- Top Logo & Theme Toggle -->
+      <div class="w-full md:w-auto flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center font-bold text-cyan-600 dark:text-cyan-400">PT</div>
+          <h1 class="text-lg font-bold tracking-wider text-slate-900 dark:text-white">PRINT<span class="text-cyan-600 dark:text-cyan-400">TRACK</span></h1>
+        </div>
+
         <button onclick="toggleTheme()" class="p-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center gap-1 transition">
           <span id="themeIcon">☀️</span>
+          <span id="themeText" class="text-[11px]">Terang</span>
         </button>
       </div>
+      
+      <!-- Navigasi 6 Tab + Dashboard -->
+      <div class="w-full md:w-auto overflow-x-auto no-scrollbar pb-1 md:pb-0 flex items-center gap-1.5 whitespace-nowrap">
+        <a href="index.html" class="text-[11px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 shrink-0">1. Terima</a>
+        <a href="produksi.html" class="text-[11px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 shrink-0">2. Produksi</a>
+        <a href="finishing.html" class="text-[11px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 shrink-0">3. Finishing</a>
+        <a href="paking.html" class="text-[11px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 shrink-0">4. Paking</a>
+        <a href="pengiriman.html" class="text-[11px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 shrink-0">5. Pengiriman</a>
+        <a href="client.html" class="text-[11px] bg-cyan-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-cyan-400 shrink-0">6. Klien Portal</a>
+        <a href="dashboard.html" class="text-[11px] bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-amber-400 shrink-0">📊 Dashboard</a>
+      </div>
+
     </div>
   </header>
 
+  <!-- Main Content -->
   <main class="max-w-4xl mx-auto px-4 py-6 space-y-6">
-    <div class="bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl text-center space-y-3">
+    
+    <!-- BAR PENCARIAN SPK -->
+    <div class="bg-white dark:bg-brandCard p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl text-center space-y-3 transition-colors">
       <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Lacak Progres Cetakan Anda</h2>
+      <p class="text-xs text-slate-500 dark:text-slate-400">Masukkan Nomor SPK atau Nomor Telepon yang terdaftar</p>
+      
       <form onsubmit="searchOrder(event)" class="flex gap-2 max-w-md mx-auto">
-        <input type="text" id="spkInput" value="SPK-2026-0891" placeholder="Masukkan No. SPK..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-600 dark:text-cyan-400 focus:outline-none font-bold">
-        <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow transition">LACAK</button>
+        <input type="text" id="spkInput" value="SPK-2026-0891" placeholder="Contoh: SPK-2026-0891" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs font-mono text-cyan-600 dark:text-cyan-400 focus:outline-none font-bold">
+        <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow transition shrink-0">
+          LACAK
+        </button>
       </form>
     </div>
 
-    <div class="bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-5">
-      <div class="space-y-2">
-        <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Status Alur Pengerjaan</h4>
-        <div class="grid grid-cols-5 gap-1.5 text-center text-[9px] sm:text-[10px]">
-          <div class="space-y-1"><div class="w-7 h-7 mx-auto rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center">✓</div><div class="font-bold text-emerald-600 dark:text-emerald-400">Terima</div></div>
-          <div class="space-y-1"><div class="w-7 h-7 mx-auto rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center">✓</div><div class="font-bold text-emerald-600 dark:text-emerald-400">Cetak</div></div>
-          <div class="space-y-1"><div class="w-7 h-7 mx-auto rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center">⚙️</div><div class="font-bold text-amber-600 dark:text-amber-400">Finishing</div></div>
-          <div class="space-y-1 opacity-40"><div class="w-7 h-7 mx-auto rounded-full bg-slate-300 dark:bg-slate-800 text-slate-600 flex items-center justify-center">4</div><div>Paking</div></div>
-          <div class="space-y-1 opacity-40"><div class="w-7 h-7 mx-auto rounded-full bg-slate-300 dark:bg-slate-800 text-slate-600 flex items-center justify-center">5</div><div>Pengiriman</div></div>
+    <!-- DETAIL PROGRES PESANAN -->
+    <div class="bg-white dark:bg-brandCard p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-5 transition-colors">
+      
+      <div class="flex flex-wrap justify-between items-start border-b border-slate-200 dark:border-slate-800 pb-3 gap-3">
+        <div>
+          <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400 font-bold">SPK-2026-0891</span>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">Brosur A4 Art Paper 150gr</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Pemesan: <strong class="text-slate-800 dark:text-slate-200">PT Nusantara Media</strong></p>
+        </div>
+        <div>
+          <span class="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-[10px] font-bold px-2.5 py-1 rounded-full">
+            TAHAP: FINISHING
+          </span>
         </div>
       </div>
+
+      <!-- TIMELINE TRACKING (5 TAHAP) -->
+      <div class="space-y-3">
+        <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status Alur Pengerjaan</h4>
+        
+        <div class="grid grid-cols-5 gap-1.5 text-center text-[9px] sm:text-[10px]">
+          <div class="space-y-1">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center text-xs">✓</div>
+            <div class="font-bold text-emerald-600 dark:text-emerald-400">Terima</div>
+          </div>
+          <div class="space-y-1">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center text-xs">✓</div>
+            <div class="font-bold text-emerald-600 dark:text-emerald-400">Cetak</div>
+          </div>
+          <div class="space-y-1">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center text-xs animate-pulse">⚙️</div>
+            <div class="font-bold text-amber-600 dark:text-amber-400">Finishing</div>
+          </div>
+          <div class="space-y-1 opacity-40">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-slate-300 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold flex items-center justify-center text-xs">4</div>
+            <div>Paking</div>
+          </div>
+          <div class="space-y-1 opacity-40">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-slate-300 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold flex items-center justify-center text-xs">5</div>
+            <div>Dikirim</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROGRESS BAR DETAIL -->
+      <div class="bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+        <div class="flex justify-between text-xs font-bold">
+          <span class="text-slate-700 dark:text-slate-300">Hasil Pengerjaan Saat Ini</span>
+          <span class="text-amber-600 dark:text-amber-400">2.000 / 10.000 Lembar</span>
+        </div>
+
+        <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2.5 overflow-hidden">
+          <div class="bg-amber-500 h-full transition-all duration-500" style="width: 20%"></div>
+        </div>
+      </div>
+
+      <!-- HUBUNGI CS / WHATSAPP -->
+      <div class="border-t border-slate-200 dark:border-slate-800 pt-3 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
+        <span class="text-slate-500 dark:text-slate-400 text-center sm:text-left">Ada pertanyaan mengenai pesanan ini?</span>
+        <a href="https://wa.me/6281234567890" target="_blank" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-xl flex items-center justify-center gap-1.5 transition">
+          <span>💬</span> CHAT CUSTOMER SERVICE
+        </a>
+      </div>
+
     </div>
   </main>
 
@@ -67,7 +145,9 @@
     function updateThemeUI() {
       const isDark = document.documentElement.classList.contains('dark');
       document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
+      document.getElementById('themeText').innerText = isDark ? 'Terang' : 'Gelap';
     }
+
     function toggleTheme() {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
@@ -83,7 +163,8 @@
 
     function searchOrder(e) {
       e.preventDefault();
-      alert(`Mencari SPK...`);
+      const input = document.getElementById('spkInput').value;
+      alert(`Mencari data SPK: ${input}...`);
     }
   </script>
 </body>
