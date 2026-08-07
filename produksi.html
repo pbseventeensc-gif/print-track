@@ -1,40 +1,221 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PrintTrack - 2. Bagian Produksi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
             brandDark: '#0b0f19',
-            brandCard: '#151c2e',
-            brandAccent: '#06b6d4',
-            brandEmerald: '#10b981'
+            brandCard: '#151c2e'
           }
         }
       }
     }
   </script>
 </head>
-<body class="bg-brandDark text-slate-100 font-sans min-h-screen">
+<body class="bg-slate-100 dark:bg-brandDark text-slate-800 dark:text-slate-100 font-sans min-h-screen transition-colors duration-300">
 
   <!-- Header / Navigation -->
-  <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+  <header class="border-b border-slate-300 dark:border-slate-800 bg-white/80 dark:bg-slate-900/50 backdrop-blur sticky top-0 z-50 transition-colors">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center font-bold text-cyan-400">PT</div>
-        <h1 class="text-xl font-bold tracking-wider text-white">PRINT<span class="text-cyan-400">TRACK</span></h1>
+        <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center font-bold text-cyan-600 dark:text-cyan-400">PT</div>
+        <h1 class="text-xl font-bold tracking-wider text-slate-900 dark:text-white">PRINT<span class="text-cyan-600 dark:text-cyan-400">TRACK</span></h1>
       </div>
-      <!-- NAVIGASI LENGKAP -->
-      <div class="flex items-center gap-2">
-        <a href="index.html" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-400">1. Terima Kerjaan</a>
-        <a href="produksi.html" class="text-xs bg-cyan-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-cyan-400">2. Produksi</a>
-        <a href="finishing.html" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-400">3. Finishing</a>
+      
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <a href="index.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">1. Terima Kerjaan</a>
+          <a href="produksi.html" class="text-xs bg-cyan-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-cyan-400">2. Produksi</a>
+          <a href="finishing.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">3. Finishing</a>
+          <a href="paking.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">4. Paking</a>
+          <a href="pengiriman.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">5. Pengiriman</a>
+        </div>
+
+        <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center gap-1.5 transition">
+          <span id="themeIcon">☀️</span>
+          <span id="themeText" class="hidden sm:inline">Terang</span>
+        </button>
       </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 py-8">
+    <div class="bg-white dark:bg-brandCard p-4 rounded-xl border border-slate-200 dark:border-slate-800 mb-6 flex flex-wrap justify-between items-center gap-4 transition-colors">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center font-bold text-cyan-600 dark:text-cyan-400">
+          ⚙️
+        </div>
+        <div>
+          <h2 class="text-sm font-bold text-slate-900 dark:text-white">STATION: MESIN CETAK LARGE FORMAT 01</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Operator Aktif: <span class="text-cyan-600 dark:text-cyan-400 font-semibold">Andi S. (Shift Pagi)</span></p>
+        </div>
+      </div>
+      <button onclick="simulasiScanSPK()" class="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/40 px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition">
+        <span>📷</span> SCAN QR CODE SPK (SIMULASI)
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-5 bg-white dark:bg-brandCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col justify-between transition-colors">
+        <div>
+          <div class="flex justify-between items-start mb-4 border-b border-slate-200 dark:border-slate-800 pb-3">
+            <div>
+              <span id="displaySpkNo" class="text-xs font-mono text-cyan-600 dark:text-cyan-400 font-bold">SPK-2026-0891</span>
+              <h3 id="displayJobTitle" class="text-lg font-bold text-slate-900 dark:text-white mt-1">Banner Fleksi 340gr - Prompt Event</h3>
+              <p id="displayCustomer" class="text-xs text-slate-500 dark:text-slate-400">Pemesan: PT Nusantara Media</p>
+            </div>
+            <span class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-[10px] font-mono px-2.5 py-1 rounded-full">
+              PRODUKSI AKTIF
+            </span>
+          </div>
+
+          <div class="space-y-4 my-6">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-500 dark:text-slate-400">Progres Cetak Saat Ini</span>
+                <span id="pctText" class="font-bold text-cyan-600 dark:text-cyan-400">60%</span>
+              </div>
+              <div class="w-full bg-slate-200 dark:bg-slate-900 rounded-full h-3 border border-slate-300 dark:border-slate-800 overflow-hidden">
+                <div id="progressBar" class="bg-cyan-500 h-full transition-all duration-500" style="width: 60%"></div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div class="bg-slate-50 dark:bg-slate-900/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+                <span class="text-slate-500 dark:text-slate-400 block text-[10px]">TOTAL TARGET</span>
+                <span class="font-bold text-slate-900 dark:text-white text-base">1.000 <span class="text-xs text-slate-500 dark:text-slate-400 font-normal">m²</span></span>
+              </div>
+              <div class="bg-slate-50 dark:bg-slate-900/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+                <span class="text-slate-500 dark:text-slate-400 block text-[10px]">SELESAI DICETAK</span>
+                <span id="qtyCompletedText" class="font-bold text-cyan-600 dark:text-cyan-400 text-base">600 <span class="text-xs text-slate-500 dark:text-slate-400 font-normal">m²</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-800/80 text-xs">
+            <span class="text-slate-500 dark:text-slate-400 font-medium block mb-1">📌 Catatan Pre-Press:</span>
+            <p class="text-slate-600 dark:text-slate-300 italic text-[11px]">"Perhatikan kerapatan warna biru logo utama! Gunakan pass cetak 4-pass standar."</p>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 flex justify-between">
+          <span>Tipe Finishing: <strong class="text-slate-700 dark:text-slate-300">In-House</strong></span>
+          <span>Deadline: <strong class="text-slate-700 dark:text-slate-300">10 Ags 2026</strong></span>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 bg-white dark:bg-brandCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
+        <h3 class="text-base font-semibold text-cyan-600 dark:text-cyan-400 mb-6 flex items-center gap-2">
+          <span>⚡</span> Form Update Progres Cetak Harian
+        </h3>
+
+        <form id="progressForm" onsubmit="submitProgress(event)" class="space-y-6">
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-2">1. Kuantitas Hasil Cetak Bagus Hari Ini (m²)</label>
+            <input type="number" id="inputQty" required min="1" placeholder="Masukkan jumlah meter persegi..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-lg font-bold text-cyan-600 dark:text-cyan-400 focus:outline-none focus:border-cyan-500">
+            
+            <div class="flex gap-2 mt-2">
+              <span class="text-[11px] text-slate-500 self-center">Tambah cepat:</span>
+              <button type="button" onclick="addQty(50)" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 transition">+50 m²</button>
+              <button type="button" onclick="addQty(100)" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 transition">+100 m²</button>
+              <button type="button" onclick="addQty(200)" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 transition">+200 m²</button>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200 dark:border-slate-800 pt-5">
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-2">2. Kuantitas Bahan Rusak / Afval (m²)</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input type="number" id="inputAfval" value="0" min="0" placeholder="Jumlah rusak..." class="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-red-500 font-bold focus:outline-none focus:border-red-500">
+              
+              <select id="afvalReason" class="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-700 dark:text-slate-300 focus:outline-none">
+                <option value="none">-- Pilih Alasan Damage --</option>
+                <option value="tinta">Head Tinta Meluber / Stripe</option>
+                <option value="bahan">Bahan Mampet / Kerut</option>
+                <option value="mesin">Mesin Error / Downtime</option>
+                <option value="warna">Warna Tidak Sesuai Proof</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">3. Catatan Operator (Opsional)</label>
+            <textarea id="operatorNotes" rows="2" placeholder="Catatan kondisi mesin, pergantian bahan roll, dll..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3.5 rounded-xl shadow-lg shadow-cyan-500/20 transition flex items-center justify-center gap-2">
+            <span>💾</span> SUBMIT PROGRES CETAK
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function updateThemeUI() {
+      const isDark = document.documentElement.classList.contains('dark');
+      document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
+      document.getElementById('themeText').innerText = isDark ? 'Terang' : 'Gelap';
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateThemeUI();
+    }
+    updateThemeUI();
+
+    let currentQty = 600;
+    const targetQty = 1000;
+
+    function addQty(num) {
+      const input = document.getElementById('inputQty');
+      const val = parseInt(input.value) || 0;
+      input.value = val + num;
+    }
+
+    function submitProgress(e) {
+      e.preventDefault();
+      const addedQty = parseInt(document.getElementById('inputQty').value) || 0;
+      if (addedQty <= 0) return alert("Masukkan jumlah kuantitas hasil cetak!");
+
+      currentQty += addedQty;
+      if (currentQty > targetQty) currentQty = targetQty;
+
+      const pct = Math.round((currentQty / targetQty) * 100);
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('pctText').innerText = pct + '%';
+      document.getElementById('qtyCompletedText').innerHTML = `${currentQty} <span class="text-xs text-slate-400 font-normal">m²</span>`;
+      document.getElementById('inputQty').value = '';
+
+      alert(`Progres Berhasil Diperbarui!\n\n+${addedQty} m² ditambahkan.\nTotal Cetak: ${pct}%`);
+    }
+
+    function simulasiScanSPK() {
+      alert("Simulasi Scan QR Code SPK Berhasil!");
+    }
+  </script>
+</body>
+</html>      </div>
     </div>
   </header>
 
