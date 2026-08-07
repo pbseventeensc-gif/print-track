@@ -139,6 +139,292 @@
           <p class="text-xs text-slate-500 dark:text-slate-400">Gunakan kolom di kanan untuk mencari data SPK spesifik</p>
         </div>
 
+        <!-- FIELD PENCARIAN BY KLIEN / NO SPK -->
+        <div class="relative w-full sm:w-72">
+          <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Cari No SPK / Nama Klien..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500">
+          <span class="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table id="spkTable" class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-mono">
+              <th class="p-3">NO. SPK</th>
+              <th class="p-3">NAMA PESANAN</th>
+              <th class="p-3">PELANGGAN / KLIEN</th>
+              <th class="p-3">TIPE FINISHING</th>
+              <th class="p-3">PROGRES</th>
+              <th class="p-3">POSISI STASIUN</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y border-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-200">
+            <tr>
+              <td class="p-3 font-mono font-bold text-cyan-600 dark:text-cyan-400">SPK-2026-0891</td>
+              <td class="p-3 font-bold">Brosur A4 Art Paper 150gr</td>
+              <td class="p-3">PT Nusantara Media</td>
+              <td class="p-3"><span class="bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded font-mono text-[10px]">SUB-OUT VENDOR</span></td>
+              <td class="p-3">
+                <div class="w-24 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div class="bg-amber-500 h-full" style="width: 20%"></div>
+                </div>
+                <span class="text-[10px] text-amber-500 font-bold">20% Selesai</span>
+              </td>
+              <td class="p-3 font-semibold text-amber-500">3. Finishing Sub-Out</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-mono font-bold text-cyan-600 dark:text-cyan-400">SPK-2026-0892</td>
+              <td class="p-3 font-bold">Banner Fleksi 340gr - Prompt Event</td>
+              <td class="p-3">CV Indah Cemerlang</td>
+              <td class="p-3"><span class="bg-cyan-500/10 text-cyan-500 px-2 py-0.5 rounded font-mono text-[10px]">IN-HOUSE</span></td>
+              <td class="p-3">
+                <div class="w-24 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div class="bg-cyan-500 h-full" style="width: 60%"></div>
+                </div>
+                <span class="text-[10px] text-cyan-500 font-bold">60% Cetak</span>
+              </td>
+              <td class="p-3 font-semibold text-cyan-500">2. Produksi Cetak</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-mono font-bold text-cyan-600 dark:text-cyan-400">SPK-2026-0893</td>
+              <td class="p-3 font-bold">Stiker Vinyl Cut Out A3+</td>
+              <td class="p-3">Toko Kopi Bersama</td>
+              <td class="p-3"><span class="bg-cyan-500/10 text-cyan-500 px-2 py-0.5 rounded font-mono text-[10px]">IN-HOUSE</span></td>
+              <td class="p-3">
+                <div class="w-24 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div class="bg-purple-500 h-full" style="width: 90%"></div>
+                </div>
+                <span class="text-[10px] text-purple-500 font-bold">90% Paking</span>
+              </td>
+              <td class="p-3 font-semibold text-purple-500">4. Area Paking</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-mono font-bold text-cyan-600 dark:text-cyan-400">SPK-2026-0890</td>
+              <td class="p-3 font-bold">Buku Yasin Cover Beludru</td>
+              <td class="p-3">Bpk. H. Ahmad</td>
+              <td class="p-3"><span class="bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded font-mono text-[10px]">SUB-OUT VENDOR</span></td>
+              <td class="p-3">
+                <div class="w-24 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div class="bg-emerald-500 h-full" style="width: 100%"></div>
+                </div>
+                <span class="text-[10px] text-emerald-500 font-bold">100% Selesai</span>
+              </td>
+              <td class="p-3 font-semibold text-emerald-500">5. Dikirim (POD)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function updateThemeUI() {
+      const isDark = document.documentElement.classList.contains('dark');
+      document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
+      document.getElementById('themeText').innerText = isDark ? 'Terang' : 'Gelap';
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateThemeUI();
+    }
+    updateThemeUI();
+
+    // FUNCTION FILTER TABEL PENCARIAN BY SPK / KLIEN
+    function filterTable() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.toUpperCase();
+      const table = document.getElementById("spkTable");
+      const tr = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < tr.length; i++) {
+        let tdSpk = tr[i].getElementsByTagName("td")[0];
+        let tdKlien = tr[i].getElementsByTagName("td")[2];
+        if (tdSpk || tdKlien) {
+          let txtSpk = tdSpk.textContent || tdSpk.innerText;
+          let txtKlien = tdKlien.textContent || tdKlien.innerText;
+          if (txtSpk.toUpperCase().indexOf(filter) > -1 || txtKlien.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+
+    // 1. GRAFIK BATANG (BAR CHART)
+    const ctxBar = document.getElementById('barChartProduksi').getContext('2d');
+    let barChart = new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+        labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+        datasets: [
+          {
+            label: 'Hasil Bagus (m²)',
+            data: [1200, 1900, 1500, 2200, 1800, 2500, 1100],
+            backgroundColor: '#06b6d4',
+            borderRadius: 6
+          },
+          {
+            label: 'Bahan Afval (m²)',
+            data: [30, 50, 20, 80, 40, 60, 15],
+            backgroundColor: '#ef4444',
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: '#94a3b8', font: { size: 11 } } }
+        },
+        scales: {
+          x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
+          y: { ticks: { color: '#94a3b8' }, grid: { color: '#334155', strokeDash: [4, 4] } }
+        }
+      }
+    });
+
+    // 2. GRAFIK LINGKARAN (DOUGHNUT CHART)
+    const ctxDoughnut = document.getElementById('doughnutStatus').getContext('2d');
+    new Chart(ctxDoughnut, {
+      type: 'doughnut',
+      data: {
+        labels: ['1. Order Baru', '2. Produksi', '3. Finishing', '4. Paking', '5. Dikirim'],
+        datasets: [{
+          data: [3, 8, 6, 4, 3],
+          backgroundColor: ['#3b82f6', '#06b6d4', '#f59e0b', '#a855f7', '#10b981'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } }
+        }
+      }
+    });
+
+    function updateChartData() {
+      alert("Memperbarui filter data grafik...");
+    }
+  </script>
+</body>
+</html>      </div>
+      
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <a href="index.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">1. Terima</a>
+          <a href="produksi.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">2. Produksi</a>
+          <a href="finishing.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">3. Finishing</a>
+          <a href="paking.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">4. Paking</a>
+          <a href="pengiriman.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">5. Pengiriman</a>
+          <a href="dashboard.html" class="text-xs bg-cyan-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-cyan-400">📊 Dashboard</a>
+        </div>
+
+        <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center gap-1.5 transition">
+          <span id="themeIcon">☀️</span>
+          <span id="themeText" class="hidden sm:inline">Terang</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+    
+    <!-- TOP SUMMARY KPI CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white dark:bg-brandCard p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md transition-colors">
+        <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 font-bold">
+          <span>TOTAL SPK AKTIF</span>
+          <span class="text-cyan-500 bg-cyan-500/10 px-2 py-0.5 rounded">Bulan Ini</span>
+        </div>
+        <div class="text-2xl font-black text-slate-900 dark:text-white mt-2">24 SPK</div>
+        <div class="text-[11px] text-emerald-500 mt-1 font-semibold">↑ +12% dibanding bulan lalu</div>
+      </div>
+
+      <div class="bg-white dark:bg-brandCard p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md transition-colors">
+        <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 font-bold">
+          <span>TOTAL HASIL CETAK</span>
+          <span class="text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">Target: 85k</span>
+        </div>
+        <div class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">72.400 <span class="text-xs font-normal">Lbr/m²</span></div>
+        <div class="text-[11px] text-slate-400 mt-1">Efisiensi Cetak: 98.2%</div>
+      </div>
+
+      <div class="bg-white dark:bg-brandCard p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md transition-colors">
+        <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 font-bold">
+          <span>SPK FINISHING SUB-OUT</span>
+          <span class="text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded">Vendor Luar</span>
+        </div>
+        <div class="text-2xl font-black text-amber-600 dark:text-amber-400 mt-2">6 SPK</div>
+        <div class="text-[11px] text-amber-500 mt-1">4 Di Vendor, 2 Selesai QC</div>
+      </div>
+
+      <div class="bg-white dark:bg-brandCard p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md transition-colors">
+        <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 font-bold">
+          <span>TOTAL AFVAL / DAMAGE</span>
+          <span class="text-red-500 bg-red-500/10 px-2 py-0.5 rounded">Bahan Rusak</span>
+        </div>
+        <div class="text-2xl font-black text-red-500 mt-2">1.350 <span class="text-xs font-normal">m²</span></div>
+        <div class="text-[11px] text-red-400 mt-1">1.8% dari total bahan (Aman)</div>
+      </div>
+    </div>
+
+    <!-- AREA GRAFIK INTERAKTIF -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- GRAFIK 1: PROGRES CETAK PER HARI (BAR CHART) -->
+      <div class="lg:col-span-8 bg-white dark:bg-brandCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <span>📊</span> Produksi Cetak Harian vs Afval
+          </h3>
+          <select id="filterGrafik" onchange="updateChartData()" class="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none">
+            <option value="minggu">7 Hari Terakhir</option>
+            <option value="bulan">Bulan Ini</option>
+          </select>
+        </div>
+
+        <div class="h-64">
+          <canvas id="barChartProduksi"></canvas>
+        </div>
+      </div>
+
+      <!-- GRAFIK 2: SEBARAN TAHAP ALUR PESANAN (DOUGHNUT CHART) -->
+      <div class="lg:col-span-4 bg-white dark:bg-brandCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
+        <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+          <span>🍩</span> Sebaran Status Modul SPK
+        </h3>
+
+        <div class="h-64 flex justify-center items-center">
+          <canvas id="doughnutStatus"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TABEL MONITORING SPK AKTIF -->
+    <div class="bg-white dark:bg-brandCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors space-y-4">
+      
+      <!-- BARIS HEADER TABEL & FIELD PENCARIAN -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">📋 Monitoring SPK Real-Time</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Gunakan kolom di kanan untuk mencari data SPK spesifik</p>
+        </div>
+
         <!-- FIELD KOSONG PENCARIAN BY KLIEN / NO SPK -->
         <div class="relative w-full sm:w-72">
           <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Cari No SPK / Nama Klien..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500">
