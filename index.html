@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +7,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
             brandDark: '#0b0f19',
             brandCard: '#151c2e',
+            brandLightBg: '#f8fafc',
+            brandLightCard: '#ffffff',
             brandAccent: '#06b6d4',
             brandEmerald: '#10b981'
           }
@@ -20,21 +23,30 @@
     }
   </script>
 </head>
-<body class="bg-brandDark text-slate-100 font-sans min-h-screen">
+<body class="bg-slate-100 dark:bg-brandDark text-slate-800 dark:text-slate-100 font-sans min-h-screen transition-colors duration-300">
 
   <!-- Header / Navigation -->
-  <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+  <header class="border-b border-slate-300 dark:border-slate-800 bg-white/80 dark:bg-slate-900/50 backdrop-blur sticky top-0 z-50 transition-colors">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center font-bold text-cyan-400">PT</div>
-        <h1 class="text-xl font-bold tracking-wider text-white">PRINT<span class="text-cyan-400">TRACK</span></h1>
+        <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center font-bold text-cyan-600 dark:text-cyan-400">PT</div>
+        <h1 class="text-xl font-bold tracking-wider text-slate-900 dark:text-white">PRINT<span class="text-cyan-600 dark:text-cyan-400">TRACK</span></h1>
       </div>
-      <!-- NAVIGASI LENGKAP -->
-      <div class="flex items-center gap-2">
-        <a href="index.html" class="text-xs bg-cyan-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-cyan-400">1. Terima Kerjaan</a>
-        <a href="produksi.html" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-400">2. Produksi</a>
-        <a href="finishing.html" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-400">3. Finishing</a>
-        <a href="paking.html" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-400">4. Paking</a>
+      
+      <!-- NAVIGASI & TOMBOL TEMA -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <a href="index.html" class="text-xs bg-cyan-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-cyan-400">1. Terima Kerjaan</a>
+          <a href="produksi.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">2. Produksi</a>
+          <a href="finishing.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">3. Finishing</a>
+          <a href="paking.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">4. Paking</a>
+        </div>
+
+        <!-- Tombol Switch Dark/Light Mode -->
+        <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center gap-1.5 transition">
+          <span id="themeIcon">☀️</span>
+          <span id="themeText" class="hidden sm:inline">Terang</span>
+        </button>
       </div>
     </div>
   </header>
@@ -44,8 +56,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
       <!-- FORM INPUT (KIRI) -->
-      <div class="lg:col-span-7 bg-brandCard p-6 rounded-2xl border border-slate-800 shadow-xl">
-        <h2 class="text-lg font-semibold text-cyan-400 mb-6 flex items-center gap-2">
+      <div class="lg:col-span-7 bg-white dark:bg-brandCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
+        <h2 class="text-lg font-semibold text-cyan-600 dark:text-cyan-400 mb-6 flex items-center gap-2">
           <span>📝</span> Input Pesanan Baru & Terbitkan SPK
         </h2>
 
@@ -53,58 +65,58 @@
           <!-- Data Pelanggan -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Nama Pemesan / Perusahaan</label>
-              <input type="text" required id="customerName" placeholder="Contoh: PT Nusantara Media" class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-white">
+              <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Nama Pemesan / Perusahaan</label>
+              <input type="text" required id="customerName" placeholder="Contoh: PT Nusantara Media" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white">
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">No. WhatsApp / Telepon</label>
-              <input type="text" required placeholder="081234567890" class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-white">
+              <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">No. WhatsApp / Telepon</label>
+              <input type="text" required placeholder="081234567890" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white">
             </div>
           </div>
 
           <!-- Detail Pekerjaan -->
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Nama Pekerjaan (Job Title)</label>
-            <input type="text" required id="jobTitle" placeholder="Contoh: Banner Fleksi 340gr - Prompt Event" class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-white">
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Nama Pekerjaan (Job Title)</label>
+            <input type="text" required id="jobTitle" placeholder="Contoh: Banner Fleksi 340gr - Prompt Event" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white">
           </div>
 
           <!-- Spesifikasi & Kuantitas -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Target Kuantitas</label>
-              <input type="number" required id="targetQty" placeholder="1000" class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-white">
+              <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Target Kuantitas</label>
+              <input type="number" required id="targetQty" placeholder="1000" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white">
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Satuan</label>
-              <select id="unit" class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-white">
+              <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Satuan</label>
+              <select id="unit" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white">
                 <option value="m²">Meter Persegi (m²)</option>
                 <option value="Lembar">Lembar</option>
                 <option value="Pcs">Pcs / Unit</option>
               </select>
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Tenggat Waktu (Deadline)</label>
-              <input type="date" required id="deadline" class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-white">
+              <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Tenggat Waktu (Deadline)</label>
+              <input type="date" required id="deadline" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white">
             </div>
           </div>
 
           <!-- Pilihan Tipe Finishing -->
-          <div class="border-t border-slate-800 pt-4">
-            <label class="block text-xs font-medium text-slate-400 mb-2">Tipe Alur Finishing (Pilih Salah Satu)</label>
+          <div class="border-t border-slate-200 dark:border-slate-800 pt-4">
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">Tipe Alur Finishing (Pilih Salah Satu)</label>
             <div class="grid grid-cols-2 gap-4">
-              <label class="cursor-pointer border border-slate-700 rounded-xl p-3 flex items-center gap-3 bg-slate-900/40 hover:border-cyan-500 transition">
+              <label class="cursor-pointer border border-slate-300 dark:border-slate-700 rounded-xl p-3 flex items-center gap-3 bg-slate-50 dark:bg-slate-900/40 hover:border-cyan-500 transition">
                 <input type="radio" name="finishingType" value="inhouse" checked onchange="toggleVendorInput(false)" class="text-cyan-500 focus:ring-0">
                 <div>
-                  <div class="text-sm font-semibold text-white">In-House</div>
-                  <div class="text-xs text-slate-400">Dikerjakan internal</div>
+                  <div class="text-sm font-semibold text-slate-900 dark:text-white">In-House</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400">Dikerjakan internal</div>
                 </div>
               </label>
 
-              <label class="cursor-pointer border border-slate-700 rounded-xl p-3 flex items-center gap-3 bg-slate-900/40 hover:border-amber-500 transition">
+              <label class="cursor-pointer border border-slate-300 dark:border-slate-700 rounded-xl p-3 flex items-center gap-3 bg-slate-50 dark:bg-slate-900/40 hover:border-amber-500 transition">
                 <input type="radio" name="finishingType" value="subout" onchange="toggleVendorInput(true)" class="text-amber-500 focus:ring-0">
                 <div>
-                  <div class="text-sm font-semibold text-amber-400">Sub-Out Vendor</div>
-                  <div class="text-xs text-slate-400">Dilempar ke vendor luar</div>
+                  <div class="text-sm font-semibold text-amber-600 dark:text-amber-400">Sub-Out Vendor</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400">Dilempar ke vendor luar</div>
                 </div>
               </label>
             </div>
@@ -112,23 +124,23 @@
 
           <!-- Input Nama Vendor -->
           <div id="vendorField" class="hidden bg-amber-500/10 border border-amber-500/30 p-3 rounded-lg">
-            <label class="block text-xs font-medium text-amber-300 mb-1">Nama Vendor Sub-Out</label>
-            <input type="text" id="vendorName" placeholder="Contoh: PT Laminasi Jaya" class="w-full bg-slate-900/90 border border-amber-500/40 rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+            <label class="block text-xs font-medium text-amber-700 dark:text-amber-300 mb-1">Nama Vendor Sub-Out</label>
+            <input type="text" id="vendorName" placeholder="Contoh: PT Laminasi Jaya" class="w-full bg-slate-50 dark:bg-slate-900/90 border border-amber-500/40 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:outline-none">
           </div>
 
           <!-- Upload Berkas Desain -->
-          <div class="border-t border-slate-800 pt-4">
-            <label class="block text-xs font-medium text-slate-400 mb-1">Unggah Berkas Desain (PDF/TIFF/PSD)</label>
-            <div class="border-2 border-dashed border-slate-700 hover:border-cyan-500 rounded-xl p-4 text-center cursor-pointer bg-slate-900/30">
-              <p class="text-xs text-slate-400">Klik atau seret berkas desain ke sini</p>
-              <span class="text-[10px] text-slate-500">Maksimal 500MB</span>
+          <div class="border-t border-slate-200 dark:border-slate-800 pt-4">
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Unggah Berkas Desain (PDF/TIFF/PSD)</label>
+            <div class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-cyan-500 rounded-xl p-4 text-center cursor-pointer bg-slate-50 dark:bg-slate-900/30">
+              <p class="text-xs text-slate-500 dark:text-slate-400">Klik atau seret berkas desain ke sini</p>
+              <span class="text-[10px] text-slate-400 dark:text-slate-500">Maksimal 500MB</span>
             </div>
           </div>
 
           <!-- Catatan Pre-Press -->
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Catatan Khusus Pre-Press / Operator</label>
-            <textarea id="notes" rows="2" placeholder="Catatan instruksi warna, kerapatan potong, dll..." class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-white"></textarea>
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Catatan Khusus Pre-Press / Operator</label>
+            <textarea id="notes" rows="2" placeholder="Catatan instruksi warna, kerapatan potong, dll..." class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white"></textarea>
           </div>
 
           <!-- Tombol Submit -->
@@ -140,39 +152,39 @@
 
       <!-- PRATINJAU LEMBAR SPK (KANAN) -->
       <div class="lg:col-span-5">
-        <div class="bg-brandCard p-6 rounded-2xl border border-slate-800 sticky top-24">
-          <h2 class="text-xs font-semibold text-slate-400 tracking-wider uppercase mb-4">Pratinjau SPK Physical Card</h2>
+        <div class="bg-white dark:bg-brandCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 sticky top-24 transition-colors">
+          <h2 class="text-xs font-semibold text-slate-500 dark:text-slate-400 tracking-wider uppercase mb-4">Pratinjau SPK Physical Card</h2>
           
-          <div id="spkCard" class="bg-slate-900 border border-slate-700 rounded-xl p-5 space-y-4">
-            <div class="flex justify-between items-start border-b border-slate-800 pb-3">
+          <div id="spkCard" class="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-5 space-y-4">
+            <div class="flex justify-between items-start border-b border-slate-200 dark:border-slate-800 pb-3">
               <div>
-                <span id="previewSpkNo" class="text-xs font-mono text-cyan-400 font-bold">SPK-2026-XXXX</span>
-                <h3 id="previewTitle" class="font-bold text-white text-base mt-0.5">Nama Pesanan...</h3>
-                <p id="previewCustomer" class="text-xs text-slate-400">Nama Pelanggan</p>
+                <span id="previewSpkNo" class="text-xs font-mono text-cyan-600 dark:text-cyan-400 font-bold">SPK-2026-XXXX</span>
+                <h3 id="previewTitle" class="font-bold text-slate-900 dark:text-white text-base mt-0.5">Nama Pesanan...</h3>
+                <p id="previewCustomer" class="text-xs text-slate-500 dark:text-slate-400">Nama Pelanggan</p>
               </div>
-              <div class="bg-white p-1.5 rounded-lg">
+              <div class="bg-white p-1.5 rounded-lg border border-slate-200">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=SPK-SAMPLE" alt="QR Code" class="w-14 h-14">
               </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2 text-xs">
-              <div class="bg-slate-800/50 p-2.5 rounded-lg border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">TARGET PRODUKSI</span>
-                <span id="previewTarget" class="font-bold text-white text-sm">-</span>
+              <div class="bg-white dark:bg-slate-800/50 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800">
+                <span class="text-slate-500 dark:text-slate-400 block text-[10px]">TARGET PRODUKSI</span>
+                <span id="previewTarget" class="font-bold text-slate-900 dark:text-white text-sm">-</span>
               </div>
-              <div class="bg-slate-800/50 p-2.5 rounded-lg border border-slate-800">
-                <span class="text-slate-400 block text-[10px]">TIPE FINISHING</span>
-                <span id="previewFinishing" class="font-bold text-cyan-400 text-xs">In-House</span>
+              <div class="bg-white dark:bg-slate-800/50 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800">
+                <span class="text-slate-500 dark:text-slate-400 block text-[10px]">TIPE FINISHING</span>
+                <span id="previewFinishing" class="font-bold text-cyan-600 dark:text-cyan-400 text-xs">In-House</span>
               </div>
             </div>
 
-            <div class="bg-slate-800/30 p-2.5 rounded-lg border border-slate-800 text-xs">
-              <span class="text-slate-400 block text-[10px] mb-1">CATATAN PRE-PRESS</span>
-              <p id="previewNotes" class="text-slate-300 italic text-[11px]">Belum ada catatan.</p>
+            <div class="bg-white dark:bg-slate-800/30 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs">
+              <span class="text-slate-500 dark:text-slate-400 block text-[10px] mb-1">CATATAN PRE-PRESS</span>
+              <p id="previewNotes" class="text-slate-600 dark:text-slate-300 italic text-[11px]">Belum ada catatan.</p>
             </div>
 
             <div class="pt-2 text-center">
-              <span class="inline-block text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-full font-mono">
+              <span class="inline-block text-[10px] bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-full font-mono">
                 STATUS: READY FOR PRODUCTION (0%)
               </span>
             </div>
@@ -184,6 +196,32 @@
   </main>
 
   <script>
+    // Fitur Toggle Theme (Dark / Light)
+    function toggleTheme() {
+      const html = document.documentElement;
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        themeIcon.innerText = '🌙';
+        themeText.innerText = 'Gelap';
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        themeIcon.innerText = '☀️';
+        themeText.innerText = 'Terang';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Set Tema Bawaan Berdasarkan Pilihan Terakhir User
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.getElementById('themeIcon').innerText = '🌙';
+      document.getElementById('themeText').innerText = 'Gelap';
+    }
+
     function toggleVendorInput(show) {
       const field = document.getElementById('vendorField');
       if (show) {
@@ -216,10 +254,10 @@
 
       if (finishingType === 'subout') {
         document.getElementById('previewFinishing').innerText = `Sub-Out (${vendorName || 'Vendor Luar'})`;
-        document.getElementById('previewFinishing').className = "font-bold text-amber-400 text-xs";
+        document.getElementById('previewFinishing').className = "font-bold text-amber-600 dark:text-amber-400 text-xs";
       } else {
         document.getElementById('previewFinishing').innerText = "In-House";
-        document.getElementById('previewFinishing').className = "font-bold text-cyan-400 text-xs";
+        document.getElementById('previewFinishing').className = "font-bold text-cyan-600 dark:text-cyan-400 text-xs";
       }
 
       alert(`SPK Berhasil Diterbitkan!\nNomor: ${spkNo}\nPekerjaan siap diteruskan ke Bagian Produksi.`);
