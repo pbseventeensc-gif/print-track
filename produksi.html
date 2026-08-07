@@ -17,11 +17,7 @@
     }
     tailwind.config = {
       darkMode: 'class',
-      theme: {
-        extend: {
-          colors: { brandDark: '#0b0f19', brandCard: '#151c2e' }
-        }
-      }
+      theme: { extend: { colors: { brandDark: '#0b0f19', brandCard: '#151c2e' } } }
     }
   </script>
 </head>
@@ -47,7 +43,7 @@
         <a href="finishing.html" class="text-[11px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 shrink-0">3. Finishing</a>
         <a href="paking.html" class="text-[11px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 shrink-0">4. Paking</a>
         <a href="pengiriman.html" class="text-[11px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 shrink-0">5. Pengiriman</a>
-        <a href="dashboard.html" class="text-[11px] bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-amber-400 shrink-0">📊 Dashboard</a>
+        <a href="dashboard.html" class="text-[11px] bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-amber-400 shrink-0">📊 Dashboard &amp; Klien</a>
       </div>
     </div>
   </header>
@@ -76,13 +72,13 @@
               <h3 id="displayJobTitle" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">Banner Fleksi 340gr</h3>
               <p id="displayCustomer" class="text-xs text-slate-500 dark:text-slate-400">Pemesan: PT Nusantara Media</p>
             </div>
-            <span class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-[9px] font-mono px-2 py-0.5 rounded-full shrink-0">PRODUKSI AKTIF</span>
+            <span id="statusBadge" class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-[9px] font-mono px-2 py-0.5 rounded-full shrink-0">PRODUKSI AKTIF</span>
           </div>
 
           <div class="space-y-3 my-4">
             <div>
               <div class="flex justify-between text-xs mb-1">
-                <span class="text-slate-500 dark:text-slate-400">Progres Cetak</span>
+                <span class="text-slate-500 dark:text-slate-400">Progres Cetak Saat Ini</span>
                 <span id="pctText" class="font-bold text-cyan-600 dark:text-cyan-400">60%</span>
               </div>
               <div class="w-full bg-slate-200 dark:bg-slate-900 rounded-full h-2.5 border border-slate-300 dark:border-slate-800 overflow-hidden">
@@ -92,20 +88,22 @@
 
             <div class="grid grid-cols-2 gap-2 text-xs">
               <div class="bg-slate-50 dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
-                <span class="text-slate-500 dark:text-slate-400 block text-[9px]">TARGET</span>
+                <span class="text-slate-500 dark:text-slate-400 block text-[9px]">TARGET TOTAL</span>
                 <span class="font-bold text-slate-900 dark:text-white text-sm">1.000 <span class="text-[10px] text-slate-500 font-normal">m²</span></span>
               </div>
               <div class="bg-slate-50 dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
-                <span class="text-slate-500 dark:text-slate-400 block text-[9px]">SELESAI</span>
+                <span class="text-slate-500 dark:text-slate-400 block text-[9px]">SELESAI DICETAK</span>
                 <span id="qtyCompletedText" class="font-bold text-cyan-600 dark:text-cyan-400 text-sm">600 <span class="text-[10px] text-slate-500 font-normal">m²</span></span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="pt-3 border-t border-slate-200 dark:border-slate-800 text-[10px] text-slate-500 flex justify-between">
-          <span>Finishing: <strong class="text-slate-700 dark:text-slate-300">In-House</strong></span>
-          <span>Deadline: <strong class="text-slate-700 dark:text-slate-300">10 Ags 2026</strong></span>
+        <div class="pt-3 border-t border-slate-200 dark:border-slate-800 text-[10px] text-slate-500 flex justify-between items-center">
+          <span>Finishing: <strong class="text-slate-700 dark:text-slate-300">In-House / Sub-Out</strong></span>
+          <button onclick="kirimKeFinishing()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1 shadow">
+            <span>⏩</span> OPER KE FINISHING
+          </button>
         </div>
       </div>
 
@@ -121,6 +119,7 @@
             <div class="flex gap-2 mt-2">
               <button type="button" onclick="addQty(50)" class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700">+50</button>
               <button type="button" onclick="addQty(100)" class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700">+100</button>
+              <button type="button" onclick="addQty(200)" class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700">+200</button>
             </div>
           </div>
 
@@ -130,7 +129,7 @@
           </div>
 
           <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-xl shadow transition text-xs sm:text-sm">
-            <span>💾</span> SUBMIT PROGRES CETAK
+            <span>💾</span> SUBMIT PROGRES &amp; UPDATE DATA
           </button>
         </form>
       </div>
@@ -156,25 +155,49 @@
     }
     updateThemeUI();
 
-    let currentQty = 600;
+    let currentQty = parseInt(localStorage.getItem('produksicetakselesai')) || 600;
     const targetQty = 1000;
+
+    function renderProduksiUI() {
+      const pct = Math.round((currentQty / targetQty) * 100);
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('pctText').innerText = pct + '%';
+      document.getElementById('qtyCompletedText').innerHTML = `${currentQty} <span class="text-[10px] text-slate-400 font-normal">m²</span>`;
+      
+      if(pct >= 100) {
+        document.getElementById('statusBadge').innerText = "100% SELESAI CETAK";
+        document.getElementById('statusBadge').className = "bg-emerald-500 text-slate-950 font-bold text-[9px] px-2 py-0.5 rounded-full shrink-0";
+      } else {
+        document.getElementById('statusBadge').innerText = "PARSIAL (" + pct + "%)";
+      }
+    }
+    renderProduksiUI();
+
     function addQty(num) {
       const input = document.getElementById('inputQty');
       input.value = (parseInt(input.value) || 0) + num;
     }
+
     function submitProgress(e) {
       e.preventDefault();
       const addedQty = parseInt(document.getElementById('inputQty').value) || 0;
       if (addedQty <= 0) return alert("Masukkan kuantitas cetak!");
       currentQty += addedQty;
       if (currentQty > targetQty) currentQty = targetQty;
-      const pct = Math.round((currentQty / targetQty) * 100);
-      document.getElementById('progressBar').style.width = pct + '%';
-      document.getElementById('pctText').innerText = pct + '%';
-      document.getElementById('qtyCompletedText').innerHTML = `${currentQty} <span class="text-[10px] text-slate-400 font-normal">m²</span>`;
+
+      localStorage.setItem('produksicetakselesai', currentQty);
+      renderProduksiUI();
       document.getElementById('inputQty').value = '';
-      alert(`Progres Cetak Diperbarui!\n+${addedQty} m²`);
+
+      alert(`Progres Cetak Diperbarui!\n+${addedQty} m² (Total: ${currentQty} m²)\nData dikirim ke Bagian Finishing.`);
     }
+
+    function kirimKeFinishing() {
+      localStorage.setItem('produksicetakselesai', currentQty);
+      alert(`Pekerjaan (${currentQty} m²) resmi dioper ke Bagian Finishing!`);
+      window.location.href = "finishing.html";
+    }
+
     function simulasiScanSPK() { alert("Simulasi Scan QR SPK Berhasil!"); }
   </script>
 </body>
