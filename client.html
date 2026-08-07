@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrintTrack - Portal Tracking Pesanan Klien</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { brandDark: '#0b0f19', brandCard: '#151c2e' } } }
+    }
+  </script>
+</head>
+<body class="bg-slate-100 dark:bg-brandDark text-slate-800 dark:text-slate-100 font-sans min-h-screen transition-colors duration-300">
+
+  <!-- Header Mobile Responsive -->
+  <header class="border-b border-slate-300 dark:border-slate-800 bg-white/80 dark:bg-slate-900/50 backdrop-blur sticky top-0 z-50 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center font-bold text-cyan-600 dark:text-cyan-400">PT</div>
+        <h1 class="text-base sm:text-lg font-bold tracking-wider text-slate-900 dark:text-white">PRINT<span class="text-cyan-600 dark:text-cyan-400">TRACK</span></h1>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <a href="dashboard.html" class="text-[11px] bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-amber-400">📊 Dashboard</a>
+        <button onclick="toggleTheme()" class="p-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center gap-1 transition">
+          <span id="themeIcon">☀️</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6 space-y-6">
+    <div class="bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl text-center space-y-3">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Lacak Progres Cetakan Anda</h2>
+      <form onsubmit="searchOrder(event)" class="flex gap-2 max-w-md mx-auto">
+        <input type="text" id="spkInput" value="SPK-2026-0891" placeholder="Masukkan No. SPK..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-600 dark:text-cyan-400 focus:outline-none font-bold">
+        <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow transition">LACAK</button>
+      </form>
+    </div>
+
+    <div class="bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-5">
+      <div class="space-y-2">
+        <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Status Alur Pengerjaan</h4>
+        <div class="grid grid-cols-5 gap-1.5 text-center text-[9px] sm:text-[10px]">
+          <div class="space-y-1"><div class="w-7 h-7 mx-auto rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center">✓</div><div class="font-bold text-emerald-600 dark:text-emerald-400">Terima</div></div>
+          <div class="space-y-1"><div class="w-7 h-7 mx-auto rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center">✓</div><div class="font-bold text-emerald-600 dark:text-emerald-400">Cetak</div></div>
+          <div class="space-y-1"><div class="w-7 h-7 mx-auto rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center">⚙️</div><div class="font-bold text-amber-600 dark:text-amber-400">Finishing</div></div>
+          <div class="space-y-1 opacity-40"><div class="w-7 h-7 mx-auto rounded-full bg-slate-300 dark:bg-slate-800 text-slate-600 flex items-center justify-center">4</div><div>Paking</div></div>
+          <div class="space-y-1 opacity-40"><div class="w-7 h-7 mx-auto rounded-full bg-slate-300 dark:bg-slate-800 text-slate-600 flex items-center justify-center">5</div><div>Pengiriman</div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function updateThemeUI() {
+      const isDark = document.documentElement.classList.contains('dark');
+      document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
+    }
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateThemeUI();
+    }
+    updateThemeUI();
+
+    function searchOrder(e) {
+      e.preventDefault();
+      alert(`Mencari SPK...`);
+    }
+  </script>
+</body>
+</html>
