@@ -6,17 +6,18 @@
   <title>PrintTrack - 1. Terima Kerjaan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           colors: {
             brandDark: '#0b0f19',
-            brandCard: '#151c2e',
-            brandLightBg: '#f8fafc',
-            brandLightCard: '#ffffff',
-            brandAccent: '#06b6d4',
-            brandEmerald: '#10b981'
+            brandCard: '#151c2e'
           }
         }
       }
@@ -33,16 +34,15 @@
         <h1 class="text-xl font-bold tracking-wider text-slate-900 dark:text-white">PRINT<span class="text-cyan-600 dark:text-cyan-400">TRACK</span></h1>
       </div>
       
-      <!-- NAVIGASI & TOMBOL TEMA -->
       <div class="flex items-center gap-3">
         <div class="flex items-center gap-2">
           <a href="index.html" class="text-xs bg-cyan-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-cyan-400">1. Terima Kerjaan</a>
           <a href="produksi.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">2. Produksi</a>
           <a href="finishing.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">3. Finishing</a>
           <a href="paking.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">4. Paking</a>
+          <a href="pengiriman.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">5. Pengiriman</a>
         </div>
 
-        <!-- Tombol Switch Dark/Light Mode -->
         <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center gap-1.5 transition">
           <span id="themeIcon">☀️</span>
           <span id="themeText" class="hidden sm:inline">Terang</span>
@@ -62,7 +62,6 @@
         </h2>
 
         <form id="orderForm" onsubmit="generateSPK(event)" class="space-y-5">
-          <!-- Data Pelanggan -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Nama Pemesan / Perusahaan</label>
@@ -74,13 +73,11 @@
             </div>
           </div>
 
-          <!-- Detail Pekerjaan -->
           <div>
             <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Nama Pekerjaan (Job Title)</label>
             <input type="text" required id="jobTitle" placeholder="Contoh: Banner Fleksi 340gr - Prompt Event" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white">
           </div>
 
-          <!-- Spesifikasi & Kuantitas -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Target Kuantitas</label>
@@ -100,7 +97,6 @@
             </div>
           </div>
 
-          <!-- Pilihan Tipe Finishing -->
           <div class="border-t border-slate-200 dark:border-slate-800 pt-4">
             <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">Tipe Alur Finishing (Pilih Salah Satu)</label>
             <div class="grid grid-cols-2 gap-4">
@@ -122,13 +118,11 @@
             </div>
           </div>
 
-          <!-- Input Nama Vendor -->
           <div id="vendorField" class="hidden bg-amber-500/10 border border-amber-500/30 p-3 rounded-lg">
             <label class="block text-xs font-medium text-amber-700 dark:text-amber-300 mb-1">Nama Vendor Sub-Out</label>
             <input type="text" id="vendorName" placeholder="Contoh: PT Laminasi Jaya" class="w-full bg-slate-50 dark:bg-slate-900/90 border border-amber-500/40 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:outline-none">
           </div>
 
-          <!-- Upload Berkas Desain -->
           <div class="border-t border-slate-200 dark:border-slate-800 pt-4">
             <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Unggah Berkas Desain (PDF/TIFF/PSD)</label>
             <div class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-cyan-500 rounded-xl p-4 text-center cursor-pointer bg-slate-50 dark:bg-slate-900/30">
@@ -137,13 +131,11 @@
             </div>
           </div>
 
-          <!-- Catatan Pre-Press -->
           <div>
             <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Catatan Khusus Pre-Press / Operator</label>
             <textarea id="notes" rows="2" placeholder="Catatan instruksi warna, kerapatan potong, dll..." class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white"></textarea>
           </div>
 
-          <!-- Tombol Submit -->
           <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-xl shadow-lg shadow-cyan-500/20 transition flex items-center justify-center gap-2">
             <span>⚡</span> TERBITKAN SPK & MULAI PRODUKSI
           </button>
@@ -196,31 +188,24 @@
   </main>
 
   <script>
-    // Fitur Toggle Theme (Dark / Light)
+    function updateThemeUI() {
+      const isDark = document.documentElement.classList.contains('dark');
+      document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
+      document.getElementById('themeText').innerText = isDark ? 'Terang' : 'Gelap';
+    }
+
     function toggleTheme() {
       const html = document.documentElement;
-      const themeIcon = document.getElementById('themeIcon');
-      const themeText = document.getElementById('themeText');
-
       if (html.classList.contains('dark')) {
         html.classList.remove('dark');
-        themeIcon.innerText = '🌙';
-        themeText.innerText = 'Gelap';
         localStorage.setItem('theme', 'light');
       } else {
         html.classList.add('dark');
-        themeIcon.innerText = '☀️';
-        themeText.innerText = 'Terang';
         localStorage.setItem('theme', 'dark');
       }
+      updateThemeUI();
     }
-
-    // Set Tema Bawaan Berdasarkan Pilihan Terakhir User
-    if (localStorage.getItem('theme') === 'light') {
-      document.documentElement.classList.remove('dark');
-      document.getElementById('themeIcon').innerText = '🌙';
-      document.getElementById('themeText').innerText = 'Gelap';
-    }
+    updateThemeUI();
 
     function toggleVendorInput(show) {
       const field = document.getElementById('vendorField');
@@ -233,16 +218,13 @@
 
     function generateSPK(e) {
       e.preventDefault();
-      
       const randomNum = Math.floor(1000 + Math.random() * 9000);
       const spkNo = `SPK-2026-${randomNum}`;
-      
       const customer = document.getElementById('customerName').value;
       const title = document.getElementById('jobTitle').value;
       const target = document.getElementById('targetQty').value;
       const unit = document.getElementById('unit').value;
       const notes = document.getElementById('notes').value;
-      
       const finishingType = document.querySelector('input[name="finishingType"]:checked').value;
       const vendorName = document.getElementById('vendorName').value;
 
