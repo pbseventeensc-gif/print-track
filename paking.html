@@ -49,67 +49,105 @@
   </header>
 
   <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+    
+    <!-- Status Barang Masuk Dari Finishing -->
     <div class="bg-white dark:bg-brandCard p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition-colors">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center font-bold text-purple-600 dark:text-purple-400 shrink-0">📦</div>
         <div>
           <h2 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">AREA PAKING &amp; PENGEMASAN DUS</h2>
           <p class="text-[11px] text-slate-500 dark:text-slate-400">
-            Hasil Finishing Masuk: 
+            Total Barang Lolos QC Finishing: 
             <span id="labelMasukFinishing" class="text-purple-600 dark:text-purple-400 font-bold">2.000 Lembar</span>
           </p>
         </div>
       </div>
+      <span class="bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/30 text-[10px] font-bold px-2.5 py-1 rounded-full">
+        ⚡ KALKULASI OTOMATIS AKTIF
+      </span>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Form Input Paking Otomatis (Kiri) -->
       <div class="lg:col-span-7 bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-4">
-        <h3 class="text-xs sm:text-sm font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-2">
-          <span>📝</span> Input Detail Kemasan Dus (SPK-2026-0891)
-        </h3>
+        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h3 class="text-xs sm:text-sm font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-2">
+            <span>📝</span> Input Kemasan &amp; Hitung Dus Otomatis
+          </h3>
+          <span class="text-[10px] text-slate-400">SPK-2026-0891</span>
+        </div>
 
         <form onsubmit="generateLabel(event)" class="space-y-4 text-xs">
+          <!-- Total Barang Ready -->
+          <div class="bg-slate-50 dark:bg-slate-900/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+            <span class="text-slate-500 dark:text-slate-400">Total Kuantitas Yang Harus Dipaking:</span>
+            <strong id="displayTotalBarang" class="text-slate-900 dark:text-white text-sm font-black">2.000 Lembar</strong>
+          </div>
+
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Jumlah Dus / Koli</label>
-              <input type="number" id="totalKoli" required min="1" value="5" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none">
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Isi Per Dus (Kapasitas Kemasan)
+              </label>
+              <input type="number" id="isiPerKoli" oninput="hitungBerdasarkanIsi()" required min="1" value="400" class="w-full bg-slate-50 dark:bg-slate-900 border border-purple-500/40 focus:border-purple-500 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-black text-sm focus:outline-none">
+              <span class="text-[9px] text-slate-400 mt-1 block">*Ubah angka ini untuk menghitung jumlah dus</span>
             </div>
+
             <div>
-              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Isi Per Dus (Lembar)</label>
-              <input type="number" id="isiPerKoli" required min="1" value="400" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none">
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Jumlah Dus / Koli (Otomatis)
+              </label>
+              <input type="number" id="totalKoli" oninput="hitungBerdasarkanKoli()" required min="1" value="5" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-purple-600 dark:text-purple-400 font-black text-sm focus:outline-none">
+              <span class="text-[9px] text-slate-400 mt-1 block">*Atau atur jumlah dus untuk membagi isi</span>
             </div>
           </div>
 
           <div>
             <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Petugas Paking</label>
-            <input type="text" id="namaPetugas" required value="Budi Paking" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white focus:outline-none font-bold">
+            <input type="text" id="namaPetugas" oninput="updateLabelLive()" required value="Budi Paking" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white focus:outline-none font-bold">
           </div>
 
           <button type="submit" class="w-full bg-purple-500 hover:bg-purple-400 text-slate-950 font-bold py-3 rounded-xl shadow transition text-xs sm:text-sm">
-            <span>🏷️</span> CETAK / PRATINJAU LABEL DUS
+            <span>🏷️</span> CETAK / SIMPAN STIKER LABEL DUS
           </button>
         </form>
       </div>
 
+      <!-- Pratinjau Stiker Label (Kanan) -->
       <div class="lg:col-span-5">
         <div class="bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 sticky top-20">
-          <h2 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-3">Pratinjau Stiker Label</h2>
-          <div class="bg-white text-slate-900 rounded-xl p-4 space-y-2 border-2 border-slate-300 text-xs shadow-lg">
+          <h2 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-3">Pratinjau Stiker Label (Live)</h2>
+          
+          <div class="bg-white text-slate-900 rounded-xl p-4 space-y-3 border-2 border-slate-900 text-xs shadow-2xl">
             <div class="flex justify-between items-center border-b-2 border-slate-900 pb-2">
-              <h4 class="font-black text-sm">PRINTTRACK LOGISTICS</h4>
-              <span id="lblKoliNum" class="bg-slate-900 text-white text-[10px] font-black px-2 py-0.5 rounded">DUS 1 DARI 5</span>
+              <div>
+                <h4 class="font-black text-sm tracking-wider">PRINTTRACK LOGISTICS</h4>
+                <span class="text-[9px] font-mono text-slate-500 font-bold">SPK-2026-0891</span>
+              </div>
+              <span id="lblKoliNum" class="bg-slate-900 text-white text-[10px] font-black px-2.5 py-1 rounded">DUS 1 DARI 5</span>
             </div>
-            <div>
-              <p class="font-black text-xs">PT Nusantara Media</p>
+
+            <div class="space-y-0.5">
+              <span class="text-[9px] text-slate-500 block">PENERIMA / KLIEN:</span>
+              <p class="font-black text-xs text-slate-900">PT Nusantara Media</p>
               <p class="text-[10px] text-slate-600 font-bold">Brosur A4 Art Paper 150gr</p>
             </div>
-            <div class="border-t border-slate-300 pt-2 text-[10px] flex justify-between">
-              <span>ISI: <strong id="lblIsi">400 Lembar</strong></span>
-              <span>PACKING BY: <strong id="lblPetugas">Budi Paking</strong></span>
+
+            <div class="border-t border-slate-300 pt-2 text-[10px] flex justify-between items-center bg-slate-50 p-2 rounded border">
+              <div>
+                <span class="text-slate-500 block text-[8px]">ISI PER DUS:</span>
+                <strong id="lblIsi" class="text-purple-700 text-xs">400 Lembar</strong>
+              </div>
+              <div class="text-right">
+                <span class="text-slate-500 block text-[8px]">PETUGAS:</span>
+                <strong id="lblPetugas" class="text-slate-800">Budi Paking</strong>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </main>
 
@@ -132,21 +170,56 @@
     }
     updateThemeUI();
 
-    const finishingSelesai = parseInt(localStorage.getItem('finishingSelesai')) || 2000;
-    document.getElementById('labelMasukFinishing').innerText = `${finishingSelesai.toLocaleString('id-ID')} Lembar`;
-    document.getElementById('isiPerKoli').value = Math.round(finishingSelesai / 5) || 400;
+    // Membaca Data dari Modul Finishing
+    const totalBarang = parseInt(localStorage.getItem('finishingSelesai')) || 2000;
+
+    document.getElementById('labelMasukFinishing').innerText = `${totalBarang.toLocaleString('id-ID')} Lembar`;
+    document.getElementById('displayTotalBarang').innerText = `${totalBarang.toLocaleString('id-ID')} Lembar`;
+
+    // 1. HITUNG OTOMATIS JUMLAH DUS SAAT ISI PER DUS DIUBAH
+    function hitungBerdasarkanIsi() {
+      const isi = parseInt(document.getElementById('isiPerKoli').value) || 0;
+      if (isi > 0) {
+        const jumlahKoli = Math.ceil(totalBarang / isi);
+        document.getElementById('totalKoli').value = jumlahKoli;
+      } else {
+        document.getElementById('totalKoli').value = 0;
+      }
+      updateLabelLive();
+    }
+
+    // 2. HITUNG OTOMATIS ISI PER DUS SAAT JUMLAH DUS DIUBAH
+    function hitungBerdasarkanKoli() {
+      const koli = parseInt(document.getElementById('totalKoli').value) || 0;
+      if (koli > 0) {
+        const isi = Math.round(totalBarang / koli);
+        document.getElementById('isiPerKoli').value = isi;
+      } else {
+        document.getElementById('isiPerKoli').value = 0;
+      }
+      updateLabelLive();
+    }
+
+    // 3. UPDATE PRATINJAU STIKER SECARA LIVE
+    function updateLabelLive() {
+      const koli = document.getElementById('totalKoli').value || 1;
+      const isi = document.getElementById('isiPerKoli').value || totalBarang;
+      const petugas = document.getElementById('namaPetugas').value || "-";
+
+      document.getElementById('lblKoliNum').innerText = `DUS 1 DARI ${koli}`;
+      document.getElementById('lblIsi').innerText = `${parseInt(isi).toLocaleString('id-ID')} Lembar`;
+      document.getElementById('lblPetugas').innerText = petugas;
+    }
+
+    // Jalankan kalkulasi awal saat halaman dimuat
+    hitungBerdasarkanKoli();
 
     function generateLabel(e) {
       e.preventDefault();
       const koli = document.getElementById('totalKoli').value;
       const isi = document.getElementById('isiPerKoli').value;
-      const petugas = document.getElementById('namaPetugas').value;
 
-      document.getElementById('lblKoliNum').innerText = `DUS 1 DARI ${koli}`;
-      document.getElementById('lblIsi').innerText = `${parseInt(isi).toLocaleString('id-ID')} Lembar`;
-      document.getElementById('lblPetugas').innerText = petugas;
-
-      alert(`Label Paking Disiapkan!\nTotal ${koli} Dus Siap Kirim ke Bagian Pengiriman.`);
+      alert(`Label Paking Berhasil Disimpan!\nTotal ${koli} Dus (${parseInt(isi).toLocaleString('id-ID')} Lembar/Dus) Siap Kirim ke Bagian Pengiriman.`);
     }
   </script>
 </body>
