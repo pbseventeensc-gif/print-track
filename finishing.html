@@ -41,6 +41,292 @@
           <a href="finishing.html" class="text-xs bg-amber-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-amber-400">3. Finishing</a>
           <a href="paking.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">4. Paking</a>
           <a href="pengiriman.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">5. Pengiriman</a>
+          <a href="dashboard.html" class="text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-amber-400">📊 Dashboard</a>
+        </div>
+
+        <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center gap-1.5 transition">
+          <span id="themeIcon">☀️</span>
+          <span id="themeText" class="hidden sm:inline">Terang</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 py-8">
+    <div class="bg-white dark:bg-brandCard p-4 rounded-xl border border-slate-200 dark:border-slate-800 mb-6 flex flex-wrap justify-between items-center gap-4 transition-colors">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center font-bold text-amber-600 dark:text-amber-400">
+          ✂️
+        </div>
+        <div>
+          <h2 class="text-sm font-bold text-slate-900 dark:text-white">AREA FINISHING PASCA-CETAK</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Status Bahan Cetak: <span class="text-emerald-600 dark:text-emerald-400 font-semibold">100% Selesai Cetak (Siap Finishing)</span></p>
+        </div>
+      </div>
+      
+      <div class="flex bg-slate-200 dark:bg-slate-900 p-1 rounded-xl border border-slate-300 dark:border-slate-800">
+        <button id="btnModeInhouse" onclick="switchMode('inhouse')" class="px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+          In-House Mode
+        </button>
+        <button id="btnModeSubout" onclick="switchMode('subout')" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-slate-950 shadow">
+          Sub-Out Vendor Mode
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-5 bg-white dark:bg-brandCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col justify-between transition-colors">
+        <div>
+          <div class="flex justify-between items-start mb-4 border-b border-slate-200 dark:border-slate-800 pb-3">
+            <div>
+              <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400 font-bold">SPK-2026-0891</span>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1">Brosur A4 Art Paper 150gr</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Pemesan: PT Nusantara Media</p>
+            </div>
+            <span id="badgeFinishingType" class="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-[10px] font-mono px-2.5 py-1 rounded-full">
+              FINISHING: SUB-OUT VENDOR
+            </span>
+          </div>
+
+          <div class="space-y-4 my-6">
+            <div class="bg-slate-50 dark:bg-slate-900/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-1">
+              <span class="text-slate-500 dark:text-slate-400 block text-[10px]">INSTRUKSI SPESIFIKASI FINISHING</span>
+              <p id="descFinishing" class="text-amber-600 dark:text-amber-300 font-medium">Laminasi Glossy 2 Muka (Vendor: PT Laminasi Jaya)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 flex justify-between">
+          <span>Hasil QC Cetak: <strong class="text-emerald-600 dark:text-emerald-400">Lolos (Pass)</strong></span>
+          <span>Deadline: <strong class="text-slate-700 dark:text-slate-300">10 Ags 2026</strong></span>
+        </div>
+      </div>
+
+      <!-- IN-HOUSE PANEL -->
+      <div id="panelInhouse" class="hidden lg:col-span-7 bg-white dark:bg-brandCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
+        <h3 class="text-base font-semibold text-amber-600 dark:text-amber-400 mb-6 flex items-center gap-2">
+          <span>🛠️</span> Form Progres Finishing In-House
+        </h3>
+
+        <div class="grid grid-cols-3 gap-3 mb-6 text-xs">
+          <div class="bg-slate-50 dark:bg-slate-900/90 p-3 rounded-xl border border-slate-200 dark:border-slate-800 text-center">
+            <span class="text-slate-500 dark:text-slate-400 block text-[10px]">TARGET TOTAL</span>
+            <span class="font-bold text-slate-900 dark:text-white text-base">10.000 <span class="text-[10px] text-slate-400">Lbr</span></span>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-900/90 p-3 rounded-xl border border-slate-200 dark:border-slate-800 text-center">
+            <span class="text-slate-500 dark:text-slate-400 block text-[10px]">SELESAI (QTY)</span>
+            <span id="inhouseCompletedQty" class="font-bold text-emerald-600 dark:text-emerald-400 text-base">4.000 <span class="text-[10px] text-slate-400">Lbr</span></span>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-900/90 p-3 rounded-xl border border-slate-200 dark:border-slate-800 text-center">
+            <span class="text-slate-500 dark:text-slate-400 block text-[10px]">SISA BELUM SELESAI</span>
+            <span id="inhouseRemainingQty" class="font-bold text-amber-600 dark:text-amber-400 text-base">6.000 <span class="text-[10px] text-slate-400">Lbr</span></span>
+          </div>
+        </div>
+
+        <form onsubmit="submitInhouse(event)" class="space-y-6">
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-700 dark:text-slate-300">Progres Persentase In-House</span>
+              <span id="inhousePctText" class="font-bold text-amber-600 dark:text-amber-400">40%</span>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-slate-900 rounded-full h-3 border border-slate-300 dark:border-slate-800 overflow-hidden mb-4">
+              <div id="inhouseBar" class="bg-amber-500 h-full transition-all duration-500" style="width: 40%"></div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-2">Tambah Kuantitas Selesai Finishing (Lembar)</label>
+            <input type="number" id="inputInhouseQty" required min="1" placeholder="Masukkan lembar selesai..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-lg font-bold text-amber-600 dark:text-amber-400 focus:outline-none">
+            <div class="flex gap-2 mt-2">
+              <button type="button" onclick="addInhouse(1000)" class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700">+1.000</button>
+              <button type="button" onclick="addInhouse(2500)" class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700">+2.500</button>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 rounded-xl shadow transition">
+            <span>💾</span> UPDATE PROGRES FINISHING IN-HOUSE
+          </button>
+        </form>
+      </div>
+
+      <!-- SUB-OUT PANEL -->
+      <div id="panelSubout" class="lg:col-span-7 bg-white dark:bg-brandCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6 transition-colors">
+        <h3 class="text-base font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-2">
+          <span>🚚</span> Transaksi & Tracking Finishing Sub-Out Vendor
+        </h3>
+
+        <div class="bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs">
+          <div>
+            <span class="text-slate-500 dark:text-slate-400 block text-[10px]">VENDOR FINISHING TERPILIH</span>
+            <span class="font-bold text-amber-600 dark:text-amber-400 text-sm">PT Laminasi Jaya</span>
+          </div>
+          <span class="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-md text-[11px]">
+            Laminasi Glossy 2 Muka
+          </span>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 text-xs">
+          <div class="bg-slate-50 dark:bg-slate-900/90 p-3 rounded-xl border border-slate-200 dark:border-slate-800 text-center">
+            <span class="text-slate-500 dark:text-slate-400 block text-[10px]">TARGET TOTAL</span>
+            <span class="font-bold text-slate-900 dark:text-white text-base">10.000 <span class="text-[10px] text-slate-400">Lbr</span></span>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-900/90 p-3 rounded-xl border border-slate-200 dark:border-slate-800 text-center">
+            <span class="text-slate-500 dark:text-slate-400 block text-[10px]">DITERIMA KEMBALI</span>
+            <span id="suboutCompletedQty" class="font-bold text-emerald-600 dark:text-emerald-400 text-base">2.000 <span class="text-[10px] text-slate-400">Lbr</span></span>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-900/90 p-3 rounded-xl border border-slate-200 dark:border-slate-800 text-center">
+            <span class="text-slate-500 dark:text-slate-400 block text-[10px]">SISA DI VENDOR</span>
+            <span id="suboutRemainingQty" class="font-bold text-amber-600 dark:text-amber-400 text-base">8.000 <span class="text-[10px] text-slate-400">Lbr</span></span>
+          </div>
+        </div>
+
+        <form onsubmit="submitSubout(event)" class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-700 dark:text-slate-300">Progres Persentase Sub-Out</span>
+              <span id="suboutPctText" class="font-bold text-amber-600 dark:text-amber-400">20%</span>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-slate-900 rounded-full h-3 border border-slate-300 dark:border-slate-800 overflow-hidden mb-4">
+              <div id="suboutBar" class="bg-amber-500 h-full transition-all duration-500" style="width: 20%"></div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-2">Input Kuantitas Diterima Dari Vendor (Lembar)</label>
+            <input type="number" id="inputSuboutQty" required min="1" placeholder="Masukkan jumlah yang diterima dari vendor..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-lg font-bold text-amber-600 dark:text-amber-400 focus:outline-none">
+            <div class="flex gap-2 mt-2">
+              <button type="button" onclick="addSubout(1000)" class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700">+1.000</button>
+              <button type="button" onclick="addSubout(2500)" class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700">+2.500</button>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 rounded-xl shadow transition">
+            <span>💾</span> SIMPAN BARANG DITERIMA DARI VENDOR
+          </button>
+        </form>
+
+        <div class="space-y-3 pt-2">
+          <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">📋 SURAT JALAN &amp; STATUS VENDOR</h4>
+          <div class="bg-slate-50 dark:bg-slate-900/90 p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-2">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+              <span class="font-mono text-cyan-600 dark:text-cyan-400 font-bold">SJ-SO-2026-0042</span>
+              <span class="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded text-[10px]">Sedang Diproses Vendor</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-slate-600 dark:text-slate-300 text-[11px]">
+              <div>Total Dikirim: <strong>10.000 Lembar</strong></div>
+              <div>Kurir Pengirim: <strong>Pak Herman</strong></div>
+              <div>Tgl Pengiriman: <strong>07 Ags 2026</strong></div>
+              <div>Status QC: <strong>2.000 Selesai</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function updateThemeUI() {
+      const isDark = document.documentElement.classList.contains('dark');
+      document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
+      document.getElementById('themeText').innerText = isDark ? 'Terang' : 'Gelap';
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateThemeUI();
+    }
+    updateThemeUI();
+
+    let inhouseQty = 4000;
+    let suboutQty = 2000;
+    const targetQty = 10000;
+
+    function switchMode(mode) {
+      const btnInhouse = document.getElementById('btnModeInhouse');
+      const btnSubout = document.getElementById('btnModeSubout');
+      const panelInhouse = document.getElementById('panelInhouse');
+      const panelSubout = document.getElementById('panelSubout');
+      const badge = document.getElementById('badgeFinishingType');
+      const desc = document.getElementById('descFinishing');
+
+      if (mode === 'inhouse') {
+        btnInhouse.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-slate-950 shadow";
+        btnSubout.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        panelInhouse.classList.remove('hidden');
+        panelSubout.classList.add('hidden');
+        badge.innerText = "FINISHING: IN-HOUSE";
+        desc.innerText = "Potong Guillotine Rapi A4 + Lipat 3 (Tri-Fold)";
+      } else {
+        btnSubout.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-slate-950 shadow";
+        btnInhouse.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        panelSubout.classList.remove('hidden');
+        panelInhouse.classList.add('hidden');
+        badge.innerText = "FINISHING: SUB-OUT VENDOR";
+        desc.innerText = "Laminasi Glossy 2 Muka (Vendor: PT Laminasi Jaya)";
+      }
+    }
+
+    function addInhouse(num) {
+      const input = document.getElementById('inputInhouseQty');
+      input.value = (parseInt(input.value) || 0) + num;
+    }
+
+    function submitInhouse(e) {
+      e.preventDefault();
+      const added = parseInt(document.getElementById('inputInhouseQty').value) || 0;
+      inhouseQty += added;
+      if (inhouseQty > targetQty) inhouseQty = targetQty;
+      const remaining = targetQty - inhouseQty;
+      const pct = Math.round((inhouseQty / targetQty) * 100);
+
+      document.getElementById('inhouseBar').style.width = pct + '%';
+      document.getElementById('inhousePctText').innerText = pct + '%';
+      document.getElementById('inhouseCompletedQty').innerHTML = `${inhouseQty.toLocaleString('id-ID')} <span class="text-[10px] text-slate-400">Lbr</span>`;
+      document.getElementById('inhouseRemainingQty').innerHTML = `${remaining.toLocaleString('id-ID')} <span class="text-[10px] text-slate-400">Lbr</span>`;
+      document.getElementById('inputInhouseQty').value = '';
+
+      alert(`Progres In-House Diperbarui!\n+${added} Lembar`);
+    }
+
+    function addSubout(num) {
+      const input = document.getElementById('inputSuboutQty');
+      input.value = (parseInt(input.value) || 0) + num;
+    }
+
+    function submitSubout(e) {
+      e.preventDefault();
+      const added = parseInt(document.getElementById('inputSuboutQty').value) || 0;
+      suboutQty += added;
+      if (suboutQty > targetQty) suboutQty = targetQty;
+      const remaining = targetQty - suboutQty;
+      const pct = Math.round((suboutQty / targetQty) * 100);
+
+      document.getElementById('suboutBar').style.width = pct + '%';
+      document.getElementById('suboutPctText').innerText = pct + '%';
+      document.getElementById('suboutCompletedQty').innerHTML = `${suboutQty.toLocaleString('id-ID')} <span class="text-[10px] text-slate-400">Lbr</span>`;
+      document.getElementById('suboutRemainingQty').innerHTML = `${remaining.toLocaleString('id-ID')} <span class="text-[10px] text-slate-400">Lbr</span>`;
+      document.getElementById('inputSuboutQty').value = '';
+
+      alert(`Progres Sub-Out Diperbarui!\n+${added} Lembar dari Vendor`);
+    }
+  </script>
+</body>
+</html>      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <a href="index.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">1. Terima Kerjaan</a>
+          <a href="produksi.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">2. Produksi</a>
+          <a href="finishing.html" class="text-xs bg-amber-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-amber-400">3. Finishing</a>
+          <a href="paking.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">4. Paking</a>
+          <a href="pengiriman.html" class="text-xs bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400">5. Pengiriman</a>
         </div>
 
         <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center gap-1.5 transition">
