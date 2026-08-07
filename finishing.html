@@ -37,7 +37,6 @@
         </button>
       </div>
       
-      <!-- Navigasi Tab Mobile -->
       <div class="w-full md:w-auto overflow-x-auto no-scrollbar pb-1 md:pb-0 flex items-center gap-1.5 whitespace-nowrap">
         <a href="index.html" class="text-[11px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 shrink-0">1. Terima</a>
         <a href="produksi.html" class="text-[11px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 shrink-0">2. Produksi</a>
@@ -50,8 +49,6 @@
   </header>
 
   <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
-    
-    <!-- Status Kedatangan Bahan dari Produksi -->
     <div class="bg-white dark:bg-brandCard p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition-colors">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center font-bold text-amber-600 dark:text-amber-400 shrink-0">✂️</div>
@@ -59,12 +56,11 @@
           <h2 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">AREA FINISHING PASCA-CETAK</h2>
           <p class="text-[11px] text-slate-500 dark:text-slate-400">
             Hasil Cetak Masuk: 
-            <span id="labelMasukProduksi" class="text-cyan-600 dark:text-cyan-400 font-bold">600 m²</span>
+            <span id="labelMasukProduksi" class="text-cyan-600 dark:text-cyan-400 font-bold">6.000 Lembar</span>
           </p>
         </div>
       </div>
       
-      <!-- Tombol Switch In-House / Sub-Out & Tombol Kirim Paking -->
       <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
         <div class="flex bg-slate-200 dark:bg-slate-900 p-1 rounded-xl border border-slate-300 dark:border-slate-800 w-full sm:w-auto justify-center">
           <button id="btnModeInhouse" onclick="switchMode('inhouse')" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
@@ -82,8 +78,6 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      
-      <!-- Detail Informasi SPK (Kiri) -->
       <div class="lg:col-span-5 bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-4">
         <div class="flex justify-between items-start border-b border-slate-200 dark:border-slate-800 pb-3">
           <div>
@@ -111,15 +105,15 @@
         <div class="grid grid-cols-3 gap-2 text-center text-xs">
           <div class="bg-slate-50 dark:bg-slate-900/90 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
             <span class="text-slate-500 dark:text-slate-400 block text-[9px]">DITERIMA CETAK</span>
-            <span id="targetFinishingQty" class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm">600 <span class="text-[9px] text-slate-400 font-normal">m²</span></span>
+            <span id="targetFinishingQty" class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm">6.000 <span class="text-[9px] text-slate-400 font-normal">Lbr</span></span>
           </div>
           <div class="bg-slate-50 dark:bg-slate-900/90 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
             <span class="text-slate-500 dark:text-slate-400 block text-[9px]">SELESAI FINISHING</span>
-            <span id="inhouseCompletedQty" class="font-bold text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm">400 <span class="text-[9px] text-slate-400 font-normal">m²</span></span>
+            <span id="inhouseCompletedQty" class="font-bold text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm">2.000 <span class="text-[9px] text-slate-400 font-normal">Lbr</span></span>
           </div>
           <div class="bg-slate-50 dark:bg-slate-900/90 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
             <span class="text-slate-500 dark:text-slate-400 block text-[9px]">SISA PROSES</span>
-            <span id="inhouseRemainingQty" class="font-bold text-amber-600 dark:text-amber-400 text-xs sm:text-sm">200 <span class="text-[9px] text-slate-400 font-normal">m²</span></span>
+            <span id="inhouseRemainingQty" class="font-bold text-amber-600 dark:text-amber-400 text-xs sm:text-sm">4.000 <span class="text-[9px] text-slate-400 font-normal">Lbr</span></span>
           </div>
         </div>
 
@@ -127,16 +121,16 @@
           <div>
             <div class="flex justify-between text-xs mb-1">
               <span class="text-slate-700 dark:text-slate-300">Progres Finishing In-House</span>
-              <span id="inhousePctText" class="font-bold text-amber-600 dark:text-amber-400">66%</span>
+              <span id="inhousePctText" class="font-bold text-amber-600 dark:text-amber-400">33%</span>
             </div>
             <div class="w-full bg-slate-200 dark:bg-slate-900 rounded-full h-2.5 border border-slate-300 dark:border-slate-800 overflow-hidden mb-3">
-              <div id="inhouseBar" class="bg-amber-500 h-full transition-all duration-500" style="width: 66%"></div>
+              <div id="inhouseBar" class="bg-amber-500 h-full transition-all duration-500" style="width: 33%"></div>
             </div>
           </div>
 
           <div>
-            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Tambah Kuantitas Selesai Finishing</label>
-            <input type="number" id="inputInhouseQty" required min="1" placeholder="Masukkan jumlah selesai..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-base font-bold text-amber-600 dark:text-amber-400 focus:outline-none">
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Tambah Kuantitas Selesai Finishing (Lembar)</label>
+            <input type="number" id="inputInhouseQty" required min="1" placeholder="Masukkan lembar selesai..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-base font-bold text-amber-600 dark:text-amber-400 focus:outline-none">
           </div>
 
           <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl shadow transition text-xs sm:text-sm">
@@ -163,8 +157,8 @@
 
         <form onsubmit="submitSubout(event)" class="space-y-4">
           <div>
-            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Input Qty Diterima Dari Vendor</label>
-            <input type="number" id="inputSuboutQty" required min="1" placeholder="Masukkan jumlah dari vendor..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-base font-bold text-amber-600 dark:text-amber-400 focus:outline-none">
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Input Qty Diterima Dari Vendor (Lembar)</label>
+            <input type="number" id="inputSuboutQty" required min="1" placeholder="Masukkan lembar dari vendor..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-base font-bold text-amber-600 dark:text-amber-400 focus:outline-none">
           </div>
 
           <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl shadow transition text-xs sm:text-sm">
@@ -182,7 +176,6 @@
       document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
       document.getElementById('themeText').innerText = isDark ? 'Terang' : 'Gelap';
     }
-
     function toggleTheme() {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
@@ -196,14 +189,13 @@
     }
     updateThemeUI();
 
-    // Membaca Data dari Modul Produksi
-    const cetakSelesai = parseInt(localStorage.getItem('produksicetakselesai')) || 600;
-    const isFull = cetakSelesai >= 1000;
+    const cetakSelesai = parseInt(localStorage.getItem('produksicetakselesai')) || 6000;
+    const isFull = cetakSelesai >= 10000;
 
-    document.getElementById('labelMasukProduksi').innerText = `${cetakSelesai} m² (${isFull ? '100% Selesai' : 'Parsial'})`;
-    document.getElementById('targetFinishingQty').innerHTML = `${cetakSelesai} <span class="text-[9px] text-slate-400 font-normal">m²</span>`;
+    document.getElementById('labelMasukProduksi').innerText = `${cetakSelesai.toLocaleString('id-ID')} Lembar (${isFull ? '100% Selesai' : 'Parsial'})`;
+    document.getElementById('targetFinishingQty').innerHTML = `${cetakSelesai.toLocaleString('id-ID')} <span class="text-[9px] text-slate-400 font-normal">Lbr</span>`;
 
-    let finishingSelesai = parseInt(localStorage.getItem('finishingSelesai')) || 400;
+    let finishingSelesai = parseInt(localStorage.getItem('finishingSelesai')) || 2000;
 
     function switchMode(mode) {
       const btnInhouse = document.getElementById('btnModeInhouse');
@@ -226,7 +218,7 @@
         panelSubout.classList.remove('hidden');
         panelInhouse.classList.add('hidden');
         badge.innerText = "SUB-OUT VENDOR";
-        desc.innerText = "Laminasi Glossy 2 Muka (PT Laminasi Jaya)";
+        desc.innerText = "Laminasi Glossy 2 Muka (Vendor: PT Laminasi Jaya)";
       }
     }
 
@@ -237,8 +229,8 @@
 
       document.getElementById('inhouseBar').style.width = pct + '%';
       document.getElementById('inhousePctText').innerText = pct + '%';
-      document.getElementById('inhouseCompletedQty').innerHTML = `${finishingSelesai} <span class="text-[9px] text-slate-400 font-normal">m²</span>`;
-      document.getElementById('inhouseRemainingQty').innerHTML = `${remaining} <span class="text-[9px] text-slate-400 font-normal">m²</span>`;
+      document.getElementById('inhouseCompletedQty').innerHTML = `${finishingSelesai.toLocaleString('id-ID')} <span class="text-[9px] text-slate-400 font-normal">Lbr</span>`;
+      document.getElementById('inhouseRemainingQty').innerHTML = `${remaining.toLocaleString('id-ID')} <span class="text-[9px] text-slate-400 font-normal">Lbr</span>`;
     }
     renderFinishingUI();
 
@@ -251,7 +243,7 @@
       renderFinishingUI();
       document.getElementById('inputInhouseQty').value = '';
 
-      alert(`Progres Finishing In-House Diperbarui!\n+${added} m² (Total Selesai: ${finishingSelesai} m²)\nSiap diteruskan ke Bagian Paking.`);
+      alert(`Progres Finishing In-House Diperbarui!\n+${added.toLocaleString('id-ID')} Lembar (Total Selesai: ${finishingSelesai.toLocaleString('id-ID')} Lembar)\nSiap diteruskan ke Bagian Paking.`);
     }
 
     function submitSubout(e) {
@@ -262,12 +254,12 @@
 
       renderFinishingUI();
       document.getElementById('inputSuboutQty').value = '';
-      alert(`Progres Sub-Out Diperbarui!\n+${added} m² diterima dari Vendor.`);
+      alert(`Progres Sub-Out Diperbarui!\n+${added.toLocaleString('id-ID')} Lembar diterima dari Vendor.`);
     }
 
     function kirimKePaking() {
       localStorage.setItem('finishingSelesai', finishingSelesai);
-      alert(`Barang hasil finishing (${finishingSelesai} m²) resmi dioper ke Bagian Paking!`);
+      alert(`Barang hasil finishing (${finishingSelesai.toLocaleString('id-ID')} Lembar) resmi dioper ke Bagian Paking!`);
       window.location.href = "paking.html";
     }
   </script>
