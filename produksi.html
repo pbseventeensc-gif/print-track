@@ -63,15 +63,29 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- PRATINJAU SPK & STATUS PROGRES (KIRI) -->
       <div class="lg:col-span-5 bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col justify-between transition-colors">
         <div>
           <div class="flex justify-between items-start mb-4 border-b border-slate-200 dark:border-slate-800 pb-3">
             <div>
               <span id="displaySpkNo" class="text-xs font-mono text-cyan-600 dark:text-cyan-400 font-bold">SPK-2026-0891</span>
-              <h3 id="displayJobTitle" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">Brosur A4 Art Paper 150gr</h3>
+              <h3 id="displayJobTitle" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">Brosur Promo Nusantara</h3>
               <p id="displayCustomer" class="text-xs text-slate-500 dark:text-slate-400">Pemesan: PT Nusantara Media</p>
             </div>
             <span id="statusBadge" class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-[9px] font-mono px-2 py-0.5 rounded-full shrink-0">PRODUKSI AKTIF</span>
+          </div>
+
+          <!-- Spek Ringkas -->
+          <div class="bg-slate-50 dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-1 mb-3">
+            <div class="flex justify-between">
+              <span class="text-slate-400">Bahan &amp; Size:</span>
+              <strong class="text-slate-800 dark:text-slate-200">Art Paper 150gr (A4)</strong>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">Permintaan Finishing:</span>
+              <strong class="text-amber-500">Laminasi Glossy 2 Muka + Lipat 3</strong>
+            </div>
           </div>
 
           <div class="space-y-3 my-4">
@@ -98,22 +112,55 @@
           </div>
         </div>
 
-        <div class="pt-3 border-t border-slate-200 dark:border-slate-800 text-[10px] text-slate-500 flex justify-between items-center">
-          <span>Finishing: <strong class="text-amber-500">Sub-Out Vendor</strong></span>
+        <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Penentuan Finishing:</span>
           <button onclick="kirimKeFinishing()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1 shadow">
             <span>⏩</span> OPER KE FINISHING
           </button>
         </div>
       </div>
 
-      <div class="lg:col-span-7 bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
-        <h3 class="text-sm sm:text-base font-semibold text-cyan-600 dark:text-cyan-400 mb-4 flex items-center gap-2">
-          <span>⚡</span> Form Update Progres Cetak
+      <!-- FORM UPDATE PROGRES & PENENTUAN VENDOR FINISHING (KANAN) -->
+      <div class="lg:col-span-7 bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-4 transition-colors">
+        <h3 class="text-sm sm:text-base font-semibold text-cyan-600 dark:text-cyan-400 flex items-center gap-2">
+          <span>⚡</span> Form Update Cetak &amp; Alur Finishing
         </h3>
 
         <form id="progressForm" onsubmit="submitProgress(event)" class="space-y-4">
+          <!-- Penentuan Alur Finishing (Dipindah ke Produksi) -->
+          <div class="bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">
+              🛠️ Penentuan Tipe Finishing Pasca-Cetak (Oleh Tim Produksi)
+            </label>
+            
+            <div class="grid grid-cols-2 gap-3">
+              <label class="cursor-pointer border border-slate-300 dark:border-slate-700 rounded-xl p-2 flex items-center gap-2 bg-white dark:bg-slate-800 hover:border-cyan-500 transition">
+                <input type="radio" name="finishingType" value="inhouse" onchange="toggleVendorInput(false)" class="text-cyan-500 focus:ring-0">
+                <div>
+                  <div class="text-xs font-bold text-slate-900 dark:text-white">In-House</div>
+                  <div class="text-[9px] text-slate-400">Pengerjaan Internal</div>
+                </div>
+              </label>
+
+              <label class="cursor-pointer border border-slate-300 dark:border-slate-700 rounded-xl p-2 flex items-center gap-2 bg-white dark:bg-slate-800 hover:border-amber-500 transition">
+                <input type="radio" name="finishingType" value="subout" checked onchange="toggleVendorInput(true)" class="text-amber-500 focus:ring-0">
+                <div>
+                  <div class="text-xs font-bold text-amber-600 dark:text-amber-400">Sub-Out Vendor</div>
+                  <div class="text-[9px] text-slate-400">Vendor Luar</div>
+                </div>
+              </label>
+            </div>
+
+            <!-- Field Nama Vendor -->
+            <div id="vendorField" class="bg-amber-500/10 border border-amber-500/30 p-2.5 rounded-lg">
+              <label class="block text-xs font-medium text-amber-700 dark:text-amber-300 mb-1">Nama Vendor Sub-Out Terpilih</label>
+              <input type="text" id="vendorName" value="PT Laminasi Jaya" placeholder="Contoh: PT Laminasi Jaya" class="w-full bg-slate-50 dark:bg-slate-900 border border-amber-500/40 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none font-bold">
+            </div>
+          </div>
+
+          <!-- Form Input Hasil Cetak -->
           <div>
-            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">1. Hasil Cetak Bagus Hari Ini (Lembar)</label>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Hasil Cetak Bagus Hari Ini (Lembar)</label>
             <input type="number" id="inputQty" required min="1" placeholder="Masukkan lembar..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-base font-bold text-cyan-600 dark:text-cyan-400 focus:outline-none">
             <div class="flex gap-2 mt-2">
               <button type="button" onclick="addQty(500)" class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700">+500</button>
@@ -123,15 +170,16 @@
           </div>
 
           <div class="border-t border-slate-200 dark:border-slate-800 pt-3">
-            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">2. Bahan Rusak / Afval (Lembar)</label>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Bahan Rusak / Afval (Lembar)</label>
             <input type="number" id="inputAfval" value="0" min="0" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-red-500 font-bold focus:outline-none">
           </div>
 
           <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-xl shadow transition text-xs sm:text-sm">
-            <span>💾</span> SUBMIT PROGRES CETAK
+            <span>💾</span> SUBMIT PROGRES CETAK &amp; PENENTUAN FINISHING
           </button>
         </form>
       </div>
+
     </div>
   </main>
 
@@ -156,6 +204,12 @@
 
     let currentQty = parseInt(localStorage.getItem('produksicetakselesai')) || 6000;
     const targetQty = 10000;
+
+    function toggleVendorInput(show) {
+      const field = document.getElementById('vendorField');
+      if (show) field.classList.remove('hidden');
+      else field.classList.add('hidden');
+    }
 
     function renderProduksiUI() {
       const pct = Math.round((currentQty / targetQty) * 100);
@@ -188,7 +242,7 @@
       renderProduksiUI();
       document.getElementById('inputQty').value = '';
 
-      alert(`Progres Cetak Diperbarui!\n+${addedQty.toLocaleString('id-ID')} Lembar (Total: ${currentQty.toLocaleString('id-ID')} Lembar)\nData dikirim ke Bagian Finishing.`);
+      alert(`Progres Cetak Diperbarui!\n+${addedQty.toLocaleString('id-ID')} Lembar (Total: ${currentQty.toLocaleString('id-ID')} Lembar)\nAlur finishing berhasil ditentukan.`);
     }
 
     function kirimKeFinishing() {
