@@ -51,14 +51,13 @@
   <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
-      <!-- FORM INPUT PESANAN (KIRI) -->
+      <!-- FORM INPUT PESANAN -->
       <div class="lg:col-span-7 bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
         <h2 class="text-base sm:text-lg font-semibold text-cyan-600 dark:text-cyan-400 mb-5 flex items-center gap-2">
           <span>📝</span> Input Pesanan Baru &amp; Terbitkan SPK
         </h2>
 
         <form id="orderForm" onsubmit="generateSPK(event)" class="space-y-4">
-          <!-- Customer & Kontak -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Nama Pemesan / Perusahaan</label>
@@ -66,29 +65,26 @@
             </div>
             <div>
               <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">No. WhatsApp / Telepon</label>
-              <input type="text" required value="081234567890" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white">
+              <input type="text" required id="customerPhone" value="081234567890" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white">
             </div>
           </div>
 
-          <!-- Nama Pekerjaan -->
           <div>
             <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Nama Pekerjaan (Job Title)</label>
             <input type="text" required id="jobTitle" value="Brosur Promo Nusantara" oninput="updatePreview()" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white font-bold">
           </div>
 
-          <!-- Nama Bahan & Size Ukuran -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Nama Bahan</label>
-              <input type="text" required id="materialName" value="Art Paper 150gr" oninput="updatePreview()" placeholder="Contoh: Art Paper 150gr, Fleksi 340gr" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white font-bold">
+              <input type="text" required id="materialName" value="Art Paper 150gr" oninput="updatePreview()" placeholder="Contoh: Art Paper 150gr" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white font-bold">
             </div>
             <div>
               <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Size / Ukuran</label>
-              <input type="text" required id="itemSize" value="A4 (21 x 29.7 cm)" oninput="updatePreview()" placeholder="Contoh: A4, A3+, 100 x 50 cm" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white font-bold">
+              <input type="text" required id="itemSize" value="A4 (21 x 29.7 cm)" oninput="updatePreview()" placeholder="Contoh: A4" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white font-bold">
             </div>
           </div>
 
-          <!-- Qty & Satuan & Deadline -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Qty</label>
@@ -108,15 +104,13 @@
             </div>
           </div>
 
-          <!-- Jenis Finishing Permintaan Klien -->
           <div>
             <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Jenis Finishing (Permintaan Klien)</label>
-            <input type="text" required id="finishingTypeReq" value="Laminasi Glossy 2 Muka + Lipat 3" oninput="updatePreview()" placeholder="Contoh: Laminasi Doff, Potong Rapi, Jilid Spiral" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white font-bold">
+            <input type="text" required id="finishingTypeReq" value="Laminasi Glossy 2 Muka + Lipat 3" oninput="updatePreview()" placeholder="Contoh: Laminasi Doff" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white font-bold">
           </div>
 
-          <!-- CHOOSE FILE: UNGGAH BERKAS DESAIN -->
           <div class="border-t border-slate-200 dark:border-slate-800 pt-3">
-            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Unggah Berkas Desain (PDF, TIFF, AI, PSD, ZIP)</label>
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Unggah Berkas Desain</label>
             <div class="relative bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 flex items-center justify-between hover:border-cyan-500 transition">
               <input type="file" id="designFile" onchange="handleFileSelect(event)" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-cyan-500/10 file:text-cyan-600 dark:file:text-cyan-400 hover:file:bg-cyan-500/20 cursor-pointer focus:outline-none">
             </div>
@@ -125,16 +119,16 @@
 
           <div>
             <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Catatan Pre-Press</label>
-            <textarea id="notes" rows="2" placeholder="Catatan instruksi warna, dll..." class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white"></textarea>
+            <textarea id="notes" rows="2" placeholder="Catatan instruksi..." class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white"></textarea>
           </div>
 
           <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-xl shadow-lg shadow-cyan-500/20 transition flex items-center justify-center gap-2 text-xs sm:text-sm">
-            <span>⚡</span> TERBITKAN SPK &amp; MULAI PRODUKSI
+            <span>⚡</span> TERBITKAN SPK &amp; LANGSUNG KE PRODUKSI
           </button>
         </form>
       </div>
 
-      <!-- PRATINJAU LEMBAR SPK (KANAN) -->
+      <!-- PRATINJAU SPK CARD -->
       <div class="lg:col-span-5">
         <div class="bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 sticky top-20 transition-colors">
           <h2 class="text-xs font-semibold text-slate-500 dark:text-slate-400 tracking-wider uppercase mb-3">Pratinjau SPK Card</h2>
@@ -229,11 +223,33 @@
 
     function generateSPK(e) {
       e.preventDefault();
-      const spkNo = "SPK-2026-0891";
-      const fileInput = document.getElementById('designFile');
-      const fileName = fileInput.files[0] ? fileInput.files[0].name : 'Belum memilih file';
-      
-      alert(`SPK Berhasil Diterbitkan!\nNomor: ${spkNo}\nFile: ${fileName}\nPekerjaan siap dikirim ke Bagian Produksi.`);
+      const randomNum = Math.floor(1000 + Math.random() * 9000);
+      const spkNo = `SPK-2026-${randomNum}`;
+
+      const newSpkData = {
+        spkNo: spkNo,
+        customer: document.getElementById('customerName').value,
+        phone: document.getElementById('customerPhone').value,
+        jobTitle: document.getElementById('jobTitle').value,
+        material: document.getElementById('materialName').value,
+        size: document.getElementById('itemSize').value,
+        targetQty: parseInt(document.getElementById('targetQty').value) || 0,
+        unit: document.getElementById('unit').value,
+        deadline: document.getElementById('deadline').value,
+        finishingReq: document.getElementById('finishingTypeReq').value,
+        notes: document.getElementById('notes').value,
+        completedQty: 0,
+        status: 'SIAP CETAK'
+      };
+
+      // SIMPAN OTOMATIS KE PALING ATAS
+      let activeSpkList = JSON.parse(localStorage.getItem('activeSpkList')) || [];
+      activeSpkList.unshift(newSpkData); // unshift menaruh data di indeks [0] (paling atas)
+      localStorage.setItem('activeSpkList', JSON.stringify(activeSpkList));
+      localStorage.setItem('produksicetakselesai', 0); // reset hitungan cetak
+
+      alert(`✅ SPK BERHASIL DITERBITKAN!\n\nNomor: ${spkNo}\nPekerjaan: ${newSpkData.jobTitle}\n\nData otomatis masuk ke paling atas halaman Produksi.`);
+      window.location.href = "produksi.html";
     }
   </script>
 </body>
