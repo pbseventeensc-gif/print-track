@@ -179,27 +179,60 @@
       </div>
     </div>
 
-    <!-- BAGIAN 2: GRID DAFTAR SPK TERBIT DI BAWAH -->
-    <div class="bg-white dark:bg-brandCard p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-4">
-      <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
+    <!-- BAGIAN 2: DAFTAR SPK RINGKAS (6 KOLOM SESUAI PERMINTAAN) -->
+    <div class="bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors space-y-4">
+      
+      <!-- HEADER TABEL & SEARCH BAR -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
         <div>
-          <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-            <span>📋</span> DAFTAR SPK TERBIT (GRID VIEW)
+          <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <span>📋</span> DAFTAR SPK TERBIT
           </h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400">Seluruh pesanan yang telah terbit dan siap diproses di Produksi</p>
+          <p class="text-[10px] text-slate-500 dark:text-slate-400">Ringkasan daftar pesanan yang aktif</p>
         </div>
-        <span id="totalSpkBadge" class="bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 text-xs font-bold px-3 py-1 rounded-full">
-          0 SPK Terbit
-        </span>
+
+        <div class="relative w-full sm:w-80">
+          <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Cari No SPK / Klien..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500">
+          <span class="absolute left-2.5 top-2 text-slate-400 text-xs">🔍</span>
+        </div>
       </div>
 
-      <!-- GRID SPK -->
-      <div id="spkGridContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Kartu Grid Dihasilkan oleh Javascript -->
+      <!-- TABEL RINGKAS (6 KOLOM TERMASUK DESAIN POPUP) -->
+      <div class="overflow-x-auto no-scrollbar">
+        <table id="spkTable" class="w-full text-left border-collapse text-xs whitespace-nowrap">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-mono text-[11px]">
+              <th class="p-2.5">NAMA PELANGGAN</th>
+              <th class="p-2.5">NO. SPK</th>
+              <th class="p-2.5">BAHAN</th>
+              <th class="p-2.5">UKURAN</th>
+              <th class="p-2.5">QTY</th>
+              <th class="p-2.5 text-center">DESAIN</th>
+            </tr>
+          </thead>
+          <tbody id="spkTableBody" class="divide-y border-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-200">
+            <!-- Row Tabel Dihasilkan oleh Javascript -->
+          </tbody>
+        </table>
       </div>
     </div>
 
   </main>
+
+  <!-- MODAL POP-UP DESAIN LENGKAP -->
+  <div id="imgModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3">
+    <div class="bg-white dark:bg-brandCard border border-slate-300 dark:border-slate-800 w-full max-w-sm sm:max-w-md rounded-2xl p-4 sm:p-5 shadow-2xl relative space-y-3">
+      <button onclick="closeModal()" class="absolute top-3 right-3 text-slate-400 hover:text-white font-bold text-base p-1">✕</button>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-2">
+        <span id="modalSpkNo" class="text-xs font-mono font-bold text-cyan-500">SPK-2026-0891</span>
+        <h3 id="modalTitle" class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Brosur Promo</h3>
+      </div>
+      <div class="w-full h-56 rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-black">
+        <img id="modalImg" src="" class="w-full h-full object-contain" alt="Gambar Desain">
+      </div>
+      <button onclick="closeModal()" class="w-full bg-cyan-500 text-slate-950 font-bold py-2 rounded-xl text-xs">TUTUP</button>
+    </div>
+  </div>
 
   <script>
     function updateThemeUI() {
@@ -257,66 +290,68 @@
       document.getElementById('previewFinishingReq').innerText = finishingReq;
     }
 
-    // Default Data awal jika kosong
-    let activeSpkList = JSON.parse(localStorage.getItem('activeSpkList')) || [{
-      spkNo: "SPK-2026-0891",
-      customer: "PT Nusantara Media",
-      phone: "081234567890",
-      jobTitle: "Brosur Promo Nusantara",
-      material: "Art Paper 150gr",
-      size: "A4 (21 x 29.7 cm)",
-      targetQty: 10000,
-      unit: "Lembar",
-      deadline: "2026-08-10",
-      finishingReq: "Laminasi Glossy 2 Muka + Lipat 3",
-      notes: "Instruksi warna presisi",
-      image: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80"
-    }];
+    // Default Data SPK
+    let activeSpkList = JSON.parse(localStorage.getItem('activeSpkList')) || [
+      { spkNo: "SPK-2026-0891", customer: "PT Nusantara Media", material: "Art Paper 150gr", size: "A4", targetQty: 10000, unit: "Lembar", jobTitle: "Brosur Promo", image: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80" },
+      { spkNo: "SPK-2026-0892", customer: "CV Indah Cemerlang", material: "Fleksi 340gr", size: "3 x 1 m", targetQty: 50, unit: "m²", jobTitle: "Banner Event", image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80" }
+    ];
 
-    function renderSpkGrid() {
-      const container = document.getElementById('spkGridContainer');
-      document.getElementById('totalSpkBadge').innerText = `${activeSpkList.length} SPK Terbit`;
-      container.innerHTML = "";
+    function renderSpkTable() {
+      const tbody = document.getElementById('spkTableBody');
+      tbody.innerHTML = "";
 
-      activeSpkList.forEach((spk) => {
-        const cardHtml = `
-          <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl space-y-3 shadow-md hover:border-cyan-500 transition">
-            <div class="flex justify-between items-start border-b border-slate-200 dark:border-slate-800 pb-2">
-              <div>
-                <span class="text-xs font-mono font-bold text-cyan-600 dark:text-cyan-400">${spk.spkNo}</span>
-                <h4 class="font-bold text-slate-900 dark:text-white text-sm">${spk.jobTitle}</h4>
-                <p class="text-[11px] text-slate-500">${spk.customer}</p>
+      activeSpkList.forEach((spk, idx) => {
+        const rowHtml = `
+          <tr>
+            <td class="p-2.5 font-bold">${spk.customer}</td>
+            <td class="p-2.5 font-mono font-bold text-cyan-600 dark:text-cyan-400">${spk.spkNo}</td>
+            <td class="p-2.5">${spk.material}</td>
+            <td class="p-2.5">${spk.size}</td>
+            <td class="p-2.5 font-bold text-cyan-600 dark:text-cyan-400">${parseInt(spk.targetQty).toLocaleString('id-ID')} ${spk.unit}</td>
+            <td class="p-2.5 text-center">
+              <div class="inline-block cursor-pointer" onclick="openModal('${spk.spkNo}', '${spk.jobTitle}', '${spk.image}')">
+                <img src="${spk.image}" class="w-9 h-7 object-cover rounded border-2 border-cyan-500 shadow hover:scale-110 transition">
               </div>
-              <span class="bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 text-[9px] px-2 py-0.5 rounded-full font-mono">TERBIT</span>
-            </div>
-
-            <div class="w-full h-28 rounded-lg overflow-hidden bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700">
-              <img src="${spk.image || 'https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover">
-            </div>
-
-            <div class="grid grid-cols-2 gap-2 text-[11px]">
-              <div>
-                <span class="text-slate-400 text-[9px] block">BAHAN / UKURAN</span>
-                <strong class="text-slate-800 dark:text-slate-200">${spk.material}</strong>
-                <span class="text-slate-500 text-[10px] block">${spk.size}</span>
-              </div>
-              <div>
-                <span class="text-slate-400 text-[9px] block">QTY TARGET</span>
-                <strong class="text-cyan-600 dark:text-cyan-400">${parseInt(spk.targetQty).toLocaleString('id-ID')} ${spk.unit}</strong>
-              </div>
-            </div>
-
-            <div class="bg-white dark:bg-slate-800/50 p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-[10px]">
-              <span class="text-slate-400 block text-[9px]">FINISHING</span>
-              <strong class="text-amber-600 dark:text-amber-400">${spk.finishingReq}</strong>
-            </div>
-          </div>
+            </td>
+          </tr>
         `;
-        container.innerHTML += cardHtml;
+        tbody.innerHTML += rowHtml;
       });
     }
 
-    renderSpkGrid();
+    renderSpkTable();
+
+    function openModal(spk, title, img) {
+      document.getElementById('modalSpkNo').innerText = spk;
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('modalImg').src = img;
+      document.getElementById('imgModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('imgModal').classList.add('hidden');
+    }
+
+    function filterTable() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.toUpperCase();
+      const table = document.getElementById("spkTable");
+      const tr = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < tr.length; i++) {
+        let tdSpk = tr[i].getElementsByTagName("td")[1];
+        let tdKlien = tr[i].getElementsByTagName("td")[0];
+        if (tdSpk || tdKlien) {
+          let txtSpk = tdSpk.textContent || tdSpk.innerText;
+          let txtKlien = tdKlien.textContent || tdKlien.innerText;
+          if (txtSpk.toUpperCase().indexOf(filter) > -1 || txtKlien.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
 
     // TERBITKAN SPK & BERSIHKAN FORM
     function generateSPK(e) {
@@ -342,7 +377,7 @@
       activeSpkList.unshift(newSpk);
       localStorage.setItem('activeSpkList', JSON.stringify(activeSpkList));
 
-      renderSpkGrid();
+      renderSpkTable();
 
       // CLEAN FIELD (PEMBERSIHAN FORM)
       document.getElementById('orderForm').reset();
@@ -356,7 +391,7 @@
       document.getElementById('previewTarget').innerText = "-";
       document.getElementById('previewFinishingReq').innerText = "-";
 
-      alert(`✅ SPK ${spkNo} BERHASIL DITERBITKAN!\n\nSeluruh field telah dibersihkan.\nData baru otomatis muncul di Grid bawah dan langsung masuk ke Bagian Produksi.`);
+      alert(`✅ SPK ${spkNo} BERHASIL DITERBITKAN!\n\nSeluruh field telah dibersihkan.\nData otomatis masuk ke Tabel Ringkas bawah.`);
     }
   </script>
 </body>
