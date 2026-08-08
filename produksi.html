@@ -48,76 +48,67 @@
     </div>
   </header>
 
-  <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
     
-    <!-- NOTIFIKASI BANNER PALING ATAS (TAMPIL OTOMATIS) -->
-    <div id="newSpkBanner" class="bg-emerald-500/10 border-2 border-emerald-500/40 p-4 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-emerald-500 text-slate-950 font-black flex items-center justify-center shrink-0">
-          ✨
-        </div>
+    <!-- GRID DAFTAR SPK ANTREAN (BISA DI-KLIK) -->
+    <div class="bg-white dark:bg-brandCard p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-3">
+      <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-2">
         <div>
-          <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded-full uppercase">
-            🆕 SPK BARU DITERBITKAN
-          </span>
-          <h2 id="topSpkTitle" class="text-sm sm:text-base font-bold text-slate-900 dark:text-white mt-0.5">
-            Brosur Promo Nusantara — SPK-2026-0891
-          </h2>
-          <p id="topSpkSub" class="text-[11px] text-slate-500 dark:text-slate-400">
-            Pemesan: PT Nusantara Media | Qty: 10.000 Lembar
-          </p>
+          <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <span>⚙️</span> ANTREAN SPK PRODUKSI (KLIK KARTU UNTUK PILIH)
+          </h3>
+          <p class="text-[11px] text-slate-500">Klik salah satu SPK di bawah ini untuk memuat gambar &amp; memproses cetak</p>
         </div>
+        <span id="badgeAntreanCount" class="bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-xs font-bold px-2.5 py-0.5 rounded-full border border-cyan-500/30">
+          0 SPK Antrean
+        </span>
       </div>
-      <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-xl">
-        URUTAN #1 PALING ATAS
-      </span>
+
+      <!-- GRID CARDS -->
+      <div id="spkProductionGrid" class="grid grid-cols-2 md:grid-cols-4 gap-3 overflow-x-auto no-scrollbar">
+        <!-- Card SPK dihasilkan Javascript -->
+      </div>
     </div>
 
-    <!-- HEADER MESIN STASIUN -->
-    <div class="bg-white dark:bg-brandCard p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition-colors">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center font-bold text-cyan-600 dark:text-cyan-400 shrink-0">⚙️</div>
-        <div>
-          <h2 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">STATION: MESIN CETAK OFFSET HEIDELBERG 01</h2>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400">Operator: <span class="text-cyan-600 dark:text-cyan-400 font-semibold">Andi S. (Shift Pagi)</span></p>
-        </div>
-      </div>
-      <button onclick="simulasiScanSPK()" class="w-full sm:w-auto bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/40 px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition">
-        <span>📷</span> SCAN QR SPK
-      </button>
-    </div>
-
+    <!-- STASIUN KERJA & FORM PRODUKSI -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
-      <!-- CARD UTAMA SPK PALING ATAS (KIRI) -->
+      <!-- CARD SPK TERPILIH + PREVIEW GAMBAR DESAIN (KIRI) -->
       <div class="lg:col-span-5 bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col justify-between transition-colors">
         <div>
-          <div class="flex justify-between items-start mb-4 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <div class="flex justify-between items-start mb-3 border-b border-slate-200 dark:border-slate-800 pb-3">
             <div>
-              <span id="displaySpkNo" class="text-xs font-mono text-cyan-600 dark:text-cyan-400 font-bold">SPK-2026-0891</span>
-              <h3 id="displayJobTitle" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">Brosur Promo Nusantara</h3>
-              <p id="displayCustomer" class="text-xs text-slate-500 dark:text-slate-400">Pemesan: PT Nusantara Media</p>
+              <span id="displaySpkNo" class="text-xs font-mono text-cyan-600 dark:text-cyan-400 font-bold">SPK-2026-XXXX</span>
+              <h3 id="displayJobTitle" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">Nama Pekerjaan</h3>
+              <p id="displayCustomer" class="text-xs text-slate-500 dark:text-slate-400">Pemesan: -</p>
             </div>
-            <span id="statusBadge" class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-[9px] font-mono px-2 py-0.5 rounded-full shrink-0">PRODUKSI AKTIF</span>
+            <span id="statusBadge" class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-[9px] font-mono px-2 py-0.5 rounded-full shrink-0">AKTIF</span>
+          </div>
+
+          <!-- PREVIEW GAMBAR DESAIN YANG DIUNGGAH DI TERIMA PESANAN -->
+          <div class="space-y-1 mb-3">
+            <span class="text-[10px] font-bold text-slate-400 uppercase">PRATINJAU DESAIN CETAK:</span>
+            <div class="w-full h-44 rounded-xl overflow-hidden bg-slate-900 border-2 border-cyan-500/40 relative shadow-inner">
+              <img id="displayImg" src="https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80" alt="Pratinjau Desain" class="w-full h-full object-cover">
+            </div>
           </div>
 
           <!-- Spek Ringkas -->
           <div class="bg-slate-50 dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-1 mb-3">
             <div class="flex justify-between">
               <span class="text-slate-400">Bahan &amp; Ukuran:</span>
-              <strong id="displayMaterialSize" class="text-slate-800 dark:text-slate-200">Art Paper 150gr (A4)</strong>
+              <strong id="displayMaterialSize" class="text-slate-800 dark:text-slate-200">-</strong>
             </div>
             <div class="flex justify-between">
               <span class="text-slate-400">Permintaan Finishing:</span>
-              <strong id="displayFinishingReq" class="text-amber-500">Laminasi Glossy 2 Muka + Lipat 3</strong>
+              <strong id="displayFinishingReq" class="text-amber-500">-</strong>
             </div>
           </div>
 
-          <div class="space-y-3 my-4">
+          <div class="space-y-3 my-2">
             <div>
               <div class="flex justify-between text-xs mb-1">
-                <span class="text-slate-500 dark:text-slate-400">Progres Cetak Saat Ini</span>
+                <span class="text-slate-500 dark:text-slate-400">Progres Cetak saat ini</span>
                 <span id="pctText" class="font-bold text-cyan-600 dark:text-cyan-400">0%</span>
               </div>
               <div class="w-full bg-slate-200 dark:bg-slate-900 rounded-full h-2.5 border border-slate-300 dark:border-slate-800 overflow-hidden">
@@ -128,11 +119,11 @@
             <div class="grid grid-cols-2 gap-2 text-xs">
               <div class="bg-slate-50 dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
                 <span class="text-slate-500 dark:text-slate-400 block text-[9px]">TARGET TOTAL</span>
-                <span id="displayTargetQty" class="font-bold text-slate-900 dark:text-white text-sm">10.000 <span class="text-[10px] text-slate-500 font-normal">Lbr</span></span>
+                <span id="displayTargetQty" class="font-bold text-slate-900 dark:text-white text-sm">-</span>
               </div>
               <div class="bg-slate-50 dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
                 <span class="text-slate-500 dark:text-slate-400 block text-[9px]">SELESAI DICETAK</span>
-                <span id="qtyCompletedText" class="font-bold text-cyan-600 dark:text-cyan-400 text-sm">0 <span class="text-[10px] text-slate-500 font-normal">Lbr</span></span>
+                <span id="qtyCompletedText" class="font-bold text-cyan-600 dark:text-cyan-400 text-sm">0 Lbr</span>
               </div>
             </div>
           </div>
@@ -146,7 +137,7 @@
         </div>
       </div>
 
-      <!-- FORM UPDATE PROGRES (KANAN) -->
+      <!-- FORM UPDATE PROGRES CETAK & VENDOR FINISHING (KANAN) -->
       <div class="lg:col-span-7 bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-4 transition-colors">
         <h3 class="text-sm sm:text-base font-semibold text-cyan-600 dark:text-cyan-400 flex items-center gap-2">
           <span>⚡</span> Form Update Cetak &amp; Alur Finishing
@@ -200,7 +191,7 @@
           </div>
 
           <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-xl shadow transition text-xs sm:text-sm">
-            <span>💾</span> SUBMIT PROGRES CETAK &amp; UPDATE DATA
+            <span>💾</span> SUBMIT PROGRES CETAK
           </button>
         </form>
       </div>
@@ -233,8 +224,8 @@
       else field.classList.add('hidden');
     }
 
-    // MEMBACA DATA SPK PALING ATAS
-    const spkList = JSON.parse(localStorage.getItem('activeSpkList')) || [{
+    // LIST SPK DARI LOCALSTORAGE
+    let spkList = JSON.parse(localStorage.getItem('activeSpkList')) || [{
       spkNo: "SPK-2026-0891",
       customer: "PT Nusantara Media",
       jobTitle: "Brosur Promo Nusantara",
@@ -242,28 +233,71 @@
       size: "A4 (21 x 29.7 cm)",
       targetQty: 10000,
       unit: "Lembar",
-      finishingReq: "Laminasi Glossy 2 Muka + Lipat 3"
+      finishingReq: "Laminasi Glossy 2 Muka + Lipat 3",
+      image: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80"
     }];
 
-    const topSpk = spkList[0]; // Ambil data paling pertama (teratas)
+    let selectedSpkIndex = 0;
     let currentQty = parseInt(localStorage.getItem('produksicetakselesai')) || 0;
-    const targetQty = topSpk.targetQty || 10000;
 
-    // Render Data Teratas ke UI
-    document.getElementById('topSpkTitle').innerText = `${topSpk.jobTitle} — ${topSpk.spkNo}`;
-    document.getElementById('topSpkSub').innerText = `Pemesan: ${topSpk.customer} | Qty Target: ${targetQty.toLocaleString('id-ID')} ${topSpk.unit || 'Lembar'}`;
-    document.getElementById('displaySpkNo').innerText = topSpk.spkNo;
-    document.getElementById('displayJobTitle').innerText = topSpk.jobTitle;
-    document.getElementById('displayCustomer').innerText = `Pemesan: ${topSpk.customer}`;
-    document.getElementById('displayMaterialSize').innerText = `${topSpk.material} (${topSpk.size})`;
-    document.getElementById('displayFinishingReq').innerText = topSpk.finishingReq;
-    document.getElementById('displayTargetQty').innerHTML = `${targetQty.toLocaleString('id-ID')} <span class="text-[10px] text-slate-500 font-normal">${topSpk.unit || 'Lbr'}</span>`;
+    function renderProductionGrid() {
+      const grid = document.getElementById('spkProductionGrid');
+      document.getElementById('badgeAntreanCount').innerText = `${spkList.length} SPK Antrean`;
+      grid.innerHTML = "";
 
-    function renderProduksiUI() {
+      spkList.forEach((spk, index) => {
+        const isSelected = index === selectedSpkIndex;
+        const cardHtml = `
+          <div onclick="selectSpk(${index})" class="cursor-pointer bg-slate-50 dark:bg-slate-900 border-2 ${isSelected ? 'border-cyan-500 bg-cyan-500/10' : 'border-slate-200 dark:border-slate-800'} p-3 rounded-xl space-y-2 hover:border-cyan-400 transition">
+            <div class="flex justify-between items-center text-[10px]">
+              <span class="font-mono font-bold text-cyan-600 dark:text-cyan-400">${spk.spkNo}</span>
+              ${isSelected ? '<span class="bg-cyan-500 text-slate-950 font-bold px-1.5 py-0.5 rounded text-[8px]">TERPILIH</span>' : ''}
+            </div>
+            <h4 class="font-bold text-slate-900 dark:text-white text-xs truncate">${spk.jobTitle}</h4>
+            <div class="w-full h-16 rounded bg-slate-800 overflow-hidden">
+              <img src="${spk.image || 'https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover">
+            </div>
+            <p class="text-[9px] text-slate-400 truncate">${spk.customer}</p>
+          </div>
+        `;
+        grid.innerHTML += cardHtml;
+      });
+
+      loadSpkDetail(selectedSpkIndex);
+    }
+
+    function selectSpk(index) {
+      selectedSpkIndex = index;
+      currentQty = 0; // Reset progres cetak untuk SPK baru yang dipilih
+      localStorage.setItem('produksicetakselesai', 0);
+      renderProductionGrid();
+    }
+
+    function loadSpkDetail(index) {
+      const spk = spkList[index];
+      const targetQty = spk.targetQty || 10000;
+
+      document.getElementById('displaySpkNo').innerText = spk.spkNo;
+      document.getElementById('displayJobTitle').innerText = spk.jobTitle;
+      document.getElementById('displayCustomer').innerText = `Pemesan: ${spk.customer}`;
+      document.getElementById('displayMaterialSize').innerText = `${spk.material} (${spk.size})`;
+      document.getElementById('displayFinishingReq').innerText = spk.finishingReq;
+      document.getElementById('displayTargetQty').innerHTML = `${parseInt(targetQty).toLocaleString('id-ID')} <span class="text-[10px] text-slate-500 font-normal">${spk.unit || 'Lbr'}</span>`;
+      
+      // PREVIEW GAMBAR YANG DIUNGGAH DI TERIMA PESANAN
+      document.getElementById('displayImg').src = spk.image || "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80";
+
+      renderProduksiUI(targetQty, spk.unit);
+    }
+
+    function renderProduksiUI(targetQty, unit) {
+      targetQty = targetQty || spkList[selectedSpkIndex].targetQty || 10000;
+      unit = unit || spkList[selectedSpkIndex].unit || 'Lbr';
+
       const pct = Math.round((currentQty / targetQty) * 100) || 0;
       document.getElementById('progressBar').style.width = (pct > 100 ? 100 : pct) + '%';
       document.getElementById('pctText').innerText = (pct > 100 ? 100 : pct) + '%';
-      document.getElementById('qtyCompletedText').innerHTML = `${currentQty.toLocaleString('id-ID')} <span class="text-[10px] text-slate-400 font-normal">${topSpk.unit || 'Lbr'}</span>`;
+      document.getElementById('qtyCompletedText').innerHTML = `${currentQty.toLocaleString('id-ID')} <span class="text-[10px] text-slate-400 font-normal">${unit}</span>`;
       
       if(pct >= 100) {
         document.getElementById('statusBadge').innerText = "100% SELESAI CETAK";
@@ -272,7 +306,8 @@
         document.getElementById('statusBadge').innerText = "PRODUKSI AKTIF (" + pct + "%)";
       }
     }
-    renderProduksiUI();
+
+    renderProductionGrid();
 
     function addQty(num) {
       const input = document.getElementById('inputQty');
@@ -289,7 +324,7 @@
       renderProduksiUI();
       document.getElementById('inputQty').value = '';
 
-      alert(`✅ Progres Cetak ${topSpk.spkNo} Diperbarui!\n+${addedQty.toLocaleString('id-ID')} Lembar (Total: ${currentQty.toLocaleString('id-ID')} Lembar)\nData siap diteruskan ke Bagian Finishing.`);
+      alert(`✅ Progres Cetak ${spkList[selectedSpkIndex].spkNo} Diperbarui!\n+${addedQty.toLocaleString('id-ID')} Lembar (Total: ${currentQty.toLocaleString('id-ID')} Lembar).`);
     }
 
     function kirimKeFinishing() {
@@ -298,7 +333,7 @@
         return;
       }
       localStorage.setItem('produksicetakselesai', currentQty);
-      alert(`⏩ SPK ${topSpk.spkNo} (${currentQty.toLocaleString('id-ID')} Lembar) resmi dioper ke Bagian Finishing!`);
+      alert(`⏩ SPK ${spkList[selectedSpkIndex].spkNo} (${currentQty.toLocaleString('id-ID')} Lembar) resmi dioper ke Bagian Finishing!`);
       window.location.href = "finishing.html";
     }
 
