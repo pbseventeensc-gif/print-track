@@ -114,13 +114,13 @@
             <input type="text" required id="finishingTypeReq" value="Laminasi Glossy 2 Muka + Lipat 3" oninput="updatePreview()" placeholder="Contoh: Laminasi Doff, Potong Rapi, Jilid Spiral" class="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 text-slate-900 dark:text-white font-bold">
           </div>
 
-          <!-- Berkas & Catatan -->
+          <!-- CHOOSE FILE: UNGGAH BERKAS DESAIN -->
           <div class="border-t border-slate-200 dark:border-slate-800 pt-3">
-            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Unggah Berkas Desain</label>
-            <div class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-cyan-500 rounded-xl p-3 text-center cursor-pointer bg-slate-50 dark:bg-slate-900/30">
-              <p class="text-xs text-slate-500 dark:text-slate-400">Klik / seret berkas desain</p>
-              <span class="text-[9px] text-slate-400 dark:text-slate-500">Maks 500MB</span>
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Unggah Berkas Desain (PDF, TIFF, AI, PSD, ZIP)</label>
+            <div class="relative bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 flex items-center justify-between hover:border-cyan-500 transition">
+              <input type="file" id="designFile" onchange="handleFileSelect(event)" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-cyan-500/10 file:text-cyan-600 dark:file:text-cyan-400 hover:file:bg-cyan-500/20 cursor-pointer focus:outline-none">
             </div>
+            <p id="fileNameDisplay" class="text-[10px] text-cyan-500 font-medium mt-1 hidden">📄 File Terpilih: <span id="selectedFileName" class="font-bold"></span></p>
           </div>
 
           <div>
@@ -198,6 +198,18 @@
     }
     updateThemeUI();
 
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      const display = document.getElementById('fileNameDisplay');
+      const nameText = document.getElementById('selectedFileName');
+      if (file) {
+        nameText.innerText = file.name;
+        display.classList.remove('hidden');
+      } else {
+        display.classList.add('hidden');
+      }
+    }
+
     function updatePreview() {
       const title = document.getElementById('jobTitle').value || "Nama Pesanan...";
       const customer = document.getElementById('customerName').value || "Nama Pemesan";
@@ -218,7 +230,10 @@
     function generateSPK(e) {
       e.preventDefault();
       const spkNo = "SPK-2026-0891";
-      alert(`SPK Berhasil Diterbitkan!\nNomor: ${spkNo}\nPekerjaan siap dikirim ke Bagian Produksi.`);
+      const fileInput = document.getElementById('designFile');
+      const fileName = fileInput.files[0] ? fileInput.files[0].name : 'Belum memilih file';
+      
+      alert(`SPK Berhasil Diterbitkan!\nNomor: ${spkNo}\nFile: ${fileName}\nPekerjaan siap dikirim ke Bagian Produksi.`);
     }
   </script>
 </body>
