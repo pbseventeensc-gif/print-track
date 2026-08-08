@@ -8,6 +8,33 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .action-btn {
+      border-radius: 0.6rem;
+      border: 1px solid rgba(148,163,184,0.45);
+      padding: 0.4rem 0.7rem;
+      font-size: 10px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(245, 158, 11, 0.12);
+    }
+    .action-btn.detail {
+      background: rgba(15, 23, 42, 0.04);
+      color: #0f172a;
+    }
+    .dark .action-btn.detail {
+      background: rgba(15,23,42,0.7);
+      color: #e2e8f0;
+      border-color: rgba(51,65,85,0.9);
+    }
+    .action-btn.primary {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #1f2937;
+      border-color: rgba(251,191,36,0.7);
+    }
   </style>
   <script>
     if (localStorage.getItem('theme') === 'light') {
@@ -176,38 +203,63 @@
       </div>
 
     </div>
+
+    <div class="bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors space-y-4">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div>
+          <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <span>📋</span> DAFTAR SPK FINISHING
+          </h3>
+          <p class="text-[10px] text-slate-500 dark:text-slate-400">Ringkasan pekerjaan yang masuk ke tahap finishing</p>
+        </div>
+
+        <div class="relative w-full sm:w-80">
+          <input type="text" id="searchFinishing" placeholder="Cari No SPK / Klien..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500">
+          <span class="absolute left-2.5 top-2 text-slate-400 text-xs">🔍</span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto no-scrollbar">
+        <table class="w-full text-left border-collapse text-xs whitespace-nowrap">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-mono text-[11px]">
+              <th class="p-2.5">NAMA PELANGGAN</th>
+              <th class="p-2.5">NO. SPK</th>
+              <th class="p-2.5">BAHAN</th>
+              <th class="p-2.5">UKURAN</th>
+              <th class="p-2.5">QTY</th>
+              <th class="p-2.5">DESAIN</th>
+              <th class="p-2.5 text-center">AKSI</th>
+            </tr>
+          </thead>
+          <tbody id="finishingTableBody" class="divide-y border-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-200"></tbody>
+        </table>
+      </div>
+    </div>
   </main>
 
   <script>
-    function updateThemeUI() {
-      const isDark = document.documentElement.classList.contains('dark');
-      document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
-      document.getElementById('themeText').innerText = isDark ? 'Terang' : 'Gelap';
+    function getJobs() {
+      return JSON.parse(localStorage.getItem('printtrack_jobs') || '[]');
     }
-    function toggleTheme() {
-      const html = document.documentElement;
-      if (html.classList.contains('dark')) {
-        html.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-      } else {
-        html.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-      }
-      updateThemeUI();
+
+    function getSelectedSpkNo() {
+      const selected = localStorage.getItem('printtrack_selected');
+      const jobs = getJobs();
+      if (selected && jobs.some(item => item.spkNo === selected)) return selected;
+      return jobs[0]?.spkNo || '';
     }
-    updateThemeUI();
 
-    // Batas Cetak Dari Produksi Maksimal 600
-    const cetakSelesai = Math.min(parseInt(localStorage.getItem('produksicetakselesai')) || 600, 600);
+    function setSelectedSpkNo(spkNo) {
+      localStorage.setItem('printtrack_selected', spkNo);
+    }
 
-    document.getElementById('labelMasukProduksi').innerText = `${cetakSelesai.toLocaleString('id-ID')} Lbr`;
-    document.getElementById('targetFinishingQty').innerHTML = `${cetakSelesai.toLocaleString('id-ID')} <span class="text-[9px] text-slate-400 font-normal">Lbr</span>`;
-
-    // Proteksi Data Finishing Agar Tidak Pernah Melebihi cetakSelesai (600)
-    let finishingSelesai = parseInt(localStorage.getItem('finishingSelesai')) || 600;
-    if (finishingSelesai > cetakSelesai) {
-      finishingSelesai = cetakSelesai;
-      localStorage.setItem('finishingSelesai', finishingSelesai);
+    function updateJobData(spkNo, data) {
+      const jobs = getJobs();
+      const index = jobs.findIndex(item => item.spkNo === spkNo);
+      if (index === -1) return;
+      jobs[index] = { ...jobs[index], ...data };
+      localStorage.setItem('printtrack_jobs', JSON.stringify(jobs));
     }
 
     function switchMode(mode) {
@@ -216,7 +268,6 @@
       const panelInhouse = document.getElementById('panelInhouse');
       const panelSubout = document.getElementById('panelSubout');
       const badge = document.getElementById('badgeFinishingType');
-      const desc = document.getElementById('descFinishing');
 
       if (mode === 'inhouse') {
         btnInhouse.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-slate-950 shadow transition";
@@ -224,77 +275,141 @@
         panelInhouse.classList.remove('hidden');
         panelSubout.classList.add('hidden');
         badge.innerText = "IN-HOUSE";
-        desc.innerText = "Potong Guillotine Rapi A4 + Lipat 3";
       } else {
         btnSubout.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-slate-950 shadow transition";
         btnInhouse.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
         panelSubout.classList.remove('hidden');
         panelInhouse.classList.add('hidden');
         badge.innerText = "SUB-OUT VENDOR";
-        desc.innerText = "Laminasi Glossy 2 Muka (Vendor: PT Laminasi Jaya)";
       }
     }
 
     function renderFinishingUI() {
-      const remaining = cetakSelesai - finishingSelesai;
-      const pct = Math.round((finishingSelesai / cetakSelesai) * 100) || 0;
+      const jobs = getJobs();
+      const spkNo = getSelectedSpkNo();
+      const spk = jobs.find(j => j.spkNo === spkNo);
+      if (!spk) return;
 
+      const cetakSelesai = spk.completedQty || 0;
+      const finishingSelesai = spk.completedFinishingQty || 0;
+      const remaining = cetakSelesai - finishingSelesai;
+      const pct = Math.round((finishingSelesai / Math.max(cetakSelesai, 1)) * 100) || 0;
+
+      document.getElementById('labelMasukProduksi').innerText = `${cetakSelesai.toLocaleString('id-ID')} Lbr`;
+      document.getElementById('targetFinishingQty').innerHTML = `${cetakSelesai.toLocaleString('id-ID')} <span class="text-[9px] text-slate-400 font-normal">Lbr</span>`;
       document.getElementById('inhouseBar').style.width = (pct > 100 ? 100 : pct) + '%';
       document.getElementById('inhousePctText').innerText = (pct > 100 ? 100 : pct) + '%';
       document.getElementById('inhouseCompletedQty').innerHTML = `${finishingSelesai.toLocaleString('id-ID')} <span class="text-[9px] text-slate-400 font-normal">Lbr</span>`;
       document.getElementById('inhouseRemainingQty').innerHTML = `${(remaining < 0 ? 0 : remaining).toLocaleString('id-ID')} <span class="text-[9px] text-slate-400 font-normal">Lbr</span>`;
     }
-    renderFinishingUI();
 
-    // VALIDASI KETAT IN-HOUSE
+    function renderFinishingDetail() {
+      const jobs = getJobs();
+      const spkNo = getSelectedSpkNo();
+      const job = jobs.find(j => j.spkNo === spkNo) || jobs[0];
+      if (!job) return;
+
+      document.querySelector('.lg\\:col-span-5 .font-mono').innerText = job.spkNo;
+      document.querySelector('.lg\\:col-span-5 h3').innerText = job.jobTitle;
+      document.querySelector('.lg\\:col-span-5 p.text-xs.text-slate-500').innerText = `Pemesan: ${job.customer}`;
+      document.getElementById('descFinishing').innerText = job.finishingReq || 'Potong Guillotine Rapi A4 + Lipat 3';
+      
+      renderFinishingUI();
+    }
+
+    function selectFinishingJob(spkNo) {
+      setSelectedSpkNo(spkNo);
+      renderFinishingDetail();
+      renderSummaryGrid();
+    }
+
+    function renderSummaryGrid() {
+      const tbody = document.getElementById('finishingTableBody');
+      const search = document.getElementById('searchFinishing');
+      const jobs = getJobs().filter(j => j.stage >= 2);
+      const summary = jobs.filter(item => {
+        const term = (search ? search.value : '').toLowerCase();
+        if (!term) return true;
+        return `${item.spkNo} ${item.customer} ${item.jobTitle}`.toLowerCase().includes(term);
+      });
+
+      tbody.innerHTML = summary.map((item) => {
+        return `
+          <tr class="${item.spkNo === getSelectedSpkNo() ? 'bg-amber-500/5' : ''} hover:bg-slate-50 dark:hover:bg-slate-900/80 transition cursor-pointer" onclick="selectFinishingJob('${item.spkNo}')">
+            <td class="p-2.5 font-bold text-slate-900 dark:text-white">${item.customer}</td>
+            <td class="p-2.5 font-mono font-bold text-cyan-600 dark:text-cyan-400">${item.spkNo}</td>
+            <td class="p-2.5">${item.material}</td>
+            <td class="p-2.5">${item.size || 'A4'}</td>
+            <td class="p-2.5 font-bold text-amber-600 dark:text-amber-400">${Number(item.targetQty || 0).toLocaleString('id-ID')} ${item.unit || 'Lbr'}</td>
+            <td class="p-2.5 text-center">
+              <div class="inline-block rounded border-2 border-amber-500/40 overflow-hidden shadow-sm">
+                <img src="${item.image || ''}" alt="${item.jobTitle}" class="w-12 h-9 object-cover">
+              </div>
+            </td>
+            <td class="p-2.5">
+              <div class="flex justify-center gap-2">
+                <button type="button" class="action-btn detail" onclick="event.stopPropagation(); selectFinishingJob('${item.spkNo}');">Detail</button>
+                <button type="button" class="action-btn primary" onclick="event.stopPropagation(); selectFinishingJob('${item.spkNo}'); kirimKePaking();">Lanjut</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('') || '<tr><td colspan="7" class="p-4 text-center text-xs text-slate-500">Tidak ada data SPK yang sesuai.</td></tr>';
+    }
+
+    renderFinishingDetail();
+    renderSummaryGrid();
+    document.getElementById('searchFinishing')?.addEventListener('input', renderSummaryGrid);
+
     function submitInhouse(e) {
       e.preventDefault();
-      document.getElementById('errorInhouse').classList.add('hidden');
+      const spkNo = getSelectedSpkNo();
+      const jobs = getJobs();
+      const index = jobs.findIndex(j => j.spkNo === spkNo);
+      if (index === -1) return;
+
+      const spk = jobs[index];
+      const cetakSelesai = spk.completedQty || 0;
+      const finishingSelesai = spk.completedFinishingQty || 0;
       const added = parseInt(document.getElementById('inputInhouseQty').value) || 0;
 
       if ((finishingSelesai + added) > cetakSelesai) {
-        document.getElementById('errorInhouse').classList.remove('hidden');
-        alert(`❌ INPUT DITOLAK!\n\nJumlah yang diinput (${(finishingSelesai + added).toLocaleString('id-ID')} Lbr) melebihi batas maksimal hasil cetak dari Produksi (${cetakSelesai.toLocaleString('id-ID')} Lbr).\n\nSisa maksimal yang dapat di-finishing adalah: ${(cetakSelesai - finishingSelesai).toLocaleString('id-ID')} Lbr.`);
+        alert(`❌ INPUT DITOLAK!\n\nMelebihi batas cetak (${cetakSelesai.toLocaleString('id-ID')} Lbr).`);
         return;
       }
 
-      finishingSelesai += added;
-      localStorage.setItem('finishingSelesai', finishingSelesai);
+      jobs[index].completedFinishingQty = finishingSelesai + added;
+      localStorage.setItem('printtrack_jobs', JSON.stringify(jobs));
       
       renderFinishingUI();
       document.getElementById('inputInhouseQty').value = '';
-
-      alert(`✅ Progres Finishing In-House Berhasil Disimpan!\n+${added.toLocaleString('id-ID')} Lbr (Total Selesai: ${finishingSelesai.toLocaleString('id-ID')} Lbr).`);
+      alert(`✅ Progres Finishing Berhasil Disimpan!`);
     }
 
-    // VALIDASI KETAT SUB-OUT VENDOR
     function submitSubout(e) {
       e.preventDefault();
-      document.getElementById('errorSubout').classList.add('hidden');
       const added = parseInt(document.getElementById('inputSuboutQty').value) || 0;
-
-      if ((finishingSelesai + added) > cetakSelesai) {
-        document.getElementById('errorSubout').classList.remove('hidden');
-        alert(`❌ INPUT DITOLAK!\n\nBarang dari vendor (${(finishingSelesai + added).toLocaleString('id-ID')} Lbr) melebihi batas maksimal cetak (${cetakSelesai.toLocaleString('id-ID')} Lbr).\n\nSisa maksimal yang dapat diterima adalah: ${(cetakSelesai - finishingSelesai).toLocaleString('id-ID')} Lbr.`);
-        return;
-      }
-
-      finishingSelesai += added;
-      localStorage.setItem('finishingSelesai', finishingSelesai);
-
-      renderFinishingUI();
+      // Re-use inhouse logic as it's the same validation
+      submitInhouse({ preventDefault: () => {}, target: { elements: { inputInhouseQty: { value: added } } } });
       document.getElementById('inputSuboutQty').value = '';
-      alert(`✅ Progres Sub-Out Berhasil Disimpan!\n+${added.toLocaleString('id-ID')} Lbr diterima dari Vendor.`);
     }
 
     function kirimKePaking() {
-      if (finishingSelesai <= 0) {
-        alert("❌ PENGIRIMAN DITOLAK!\n\nBelum ada barang yang selesai di-finishing untuk dikirim ke Bagian Paking.");
+      const spkNo = getSelectedSpkNo();
+      const jobs = getJobs();
+      const spk = jobs.find(j => j.spkNo === spkNo);
+      
+      if (!spk || (spk.completedFinishingQty || 0) <= 0) {
+        alert("❌ Belum ada barang yang selesai di-finishing!");
         return;
       }
 
-      localStorage.setItem('finishingSelesai', finishingSelesai);
-      alert(`📦 Barang hasil finishing (${finishingSelesai.toLocaleString('id-ID')} Lbr) resmi dioper ke Bagian Paking!`);
+      updateJobData(spkNo, {
+          stage: 3,
+          status: 'Paking',
+          progress: 85
+      });
+      alert(`📦 SPK ${spkNo} resmi dioper ke Bagian Paking!`);
       window.location.href = "paking.html";
     }
   </script>

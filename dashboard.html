@@ -83,50 +83,27 @@
       </div>
 
       <!-- STATUS & TIMELINE SPK TERPILIH -->
-      <div class="space-y-4">
+      <div id="clientTrackingPanel" class="space-y-4">
         <div class="flex flex-wrap justify-between items-center gap-2 text-xs">
           <div>
-            <span class="font-mono text-cyan-600 dark:text-cyan-400 font-bold">SPK-2026-0891</span> — 
-            <strong class="text-slate-900 dark:text-white">Brosur A4 Art Paper 150gr</strong>
-            <span class="text-slate-400 text-[11px] block sm:inline sm:ml-2">(PT Nusantara Media)</span>
+            <span id="clientSpkBadge" class="font-mono text-cyan-600 dark:text-cyan-400 font-bold">SPK-2026-0891</span> — 
+            <strong id="clientJobTitle" class="text-slate-900 dark:text-white">Brosur A4 Art Paper 150gr</strong>
+            <span id="clientCustomer" class="text-slate-400 text-[11px] block sm:inline sm:ml-2">(PT Nusantara Media)</span>
           </div>
-          <span class="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+          <span id="clientStageBadge" class="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full">
             TAHAP: FINISHING
           </span>
         </div>
 
-        <!-- TIMELINE ALUR (5 STASIUN) -->
-        <div class="grid grid-cols-5 gap-1.5 text-center text-[9px] sm:text-[10px]">
-          <div class="space-y-1">
-            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center text-xs">✓</div>
-            <div class="font-bold text-emerald-600 dark:text-emerald-400">1. Terima</div>
-          </div>
-          <div class="space-y-1">
-            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center text-xs">✓</div>
-            <div class="font-bold text-emerald-600 dark:text-emerald-400">2. Cetak</div>
-          </div>
-          <div class="space-y-1">
-            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center text-xs animate-pulse">⚙️</div>
-            <div class="font-bold text-amber-600 dark:text-amber-400">3. Finishing</div>
-          </div>
-          <div class="space-y-1 opacity-40">
-            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-slate-300 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold flex items-center justify-center text-xs">4</div>
-            <div>4. Paking</div>
-          </div>
-          <div class="space-y-1 opacity-40">
-            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-slate-300 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold flex items-center justify-center text-xs">5</div>
-            <div>5. Dikirim</div>
-          </div>
-        </div>
+        <div id="timelineStages" class="grid grid-cols-5 gap-1.5 text-center text-[9px] sm:text-[10px]"></div>
 
-        <!-- PROGRES BAR KLIEN -->
         <div class="bg-slate-50 dark:bg-slate-900/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1.5">
           <div class="flex justify-between text-[11px] font-bold">
             <span class="text-slate-700 dark:text-slate-300">Hasil Pengerjaan Klien</span>
-            <span class="text-amber-600 dark:text-amber-400">2.000 / 10.000 Lembar Selesai</span>
+            <span id="clientProgressText" class="text-amber-600 dark:text-amber-400">2.000 / 10.000 Lembar Selesai</span>
           </div>
           <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-            <div class="bg-amber-500 h-full" style="width: 20%"></div>
+            <div id="clientProgressBar" class="bg-amber-500 h-full" style="width: 20%"></div>
           </div>
         </div>
       </div>
@@ -141,17 +118,17 @@
           <span>SPK AKTIF</span>
           <span class="text-cyan-500 bg-cyan-500/10 px-1.5 py-0.5 rounded text-[9px]">Bulan Ini</span>
         </div>
-        <div class="text-lg sm:text-2xl font-black text-slate-900 dark:text-white mt-1 sm:mt-2">24 SPK</div>
-        <div class="text-[10px] text-emerald-500 mt-0.5 font-semibold">↑ +12% MoM</div>
+        <div id="kpiSpkCount" class="text-lg sm:text-2xl font-black text-slate-900 dark:text-white mt-1 sm:mt-2">0 SPK</div>
+        <div id="kpiGrowth" class="text-[10px] text-emerald-500 mt-0.5 font-semibold">↑ 0% MoM</div>
       </div>
 
       <div class="bg-white dark:bg-brandCard p-3.5 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md transition-colors">
         <div class="flex justify-between items-center text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-bold">
           <span>HASIL CETAK</span>
-          <span class="text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded text-[9px]">85k Goal</span>
+          <span class="text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded text-[9px]">Target</span>
         </div>
-        <div class="text-lg sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1 sm:mt-2">72.4k <span class="text-[10px] font-normal">m²</span></div>
-        <div class="text-[10px] text-slate-400 mt-0.5">Efisiensi: 98.2%</div>
+        <div id="kpiPrintTotal" class="text-lg sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1 sm:mt-2">0 <span class="text-[10px] font-normal">Lembar</span></div>
+        <div id="kpiEfficiency" class="text-[10px] text-slate-400 mt-0.5">Efisiensi: 0%</div>
       </div>
 
       <div class="bg-white dark:bg-brandCard p-3.5 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md transition-colors">
@@ -159,8 +136,8 @@
           <span>SUB-OUT</span>
           <span class="text-amber-500 bg-amber-500/10 px-1.5 py-0.5 rounded text-[9px]">Vendor</span>
         </div>
-        <div class="text-lg sm:text-2xl font-black text-amber-600 dark:text-amber-400 mt-1 sm:mt-2">6 SPK</div>
-        <div class="text-[10px] text-amber-500 mt-0.5">4 Di Vendor</div>
+        <div id="kpiSubout" class="text-lg sm:text-2xl font-black text-amber-600 dark:text-amber-400 mt-1 sm:mt-2">0 SPK</div>
+        <div id="kpiVendorInfo" class="text-[10px] text-amber-500 mt-0.5">0 Di Vendor</div>
       </div>
 
       <div class="bg-white dark:bg-brandCard p-3.5 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md transition-colors">
@@ -168,8 +145,8 @@
           <span>DAMAGE</span>
           <span class="text-red-500 bg-red-500/10 px-1.5 py-0.5 rounded text-[9px]">Afval</span>
         </div>
-        <div class="text-lg sm:text-2xl font-black text-red-500 mt-1 sm:mt-2">1.35k <span class="text-[10px] font-normal">m²</span></div>
-        <div class="text-[10px] text-red-400 mt-0.5">1.8% (Aman)</div>
+        <div id="kpiDamage" class="text-lg sm:text-2xl font-black text-red-500 mt-1 sm:mt-2">0 <span class="text-[10px] font-normal">Lembar</span></div>
+        <div id="kpiDamageInfo" class="text-[10px] text-red-400 mt-0.5">0% (Aman)</div>
       </div>
     </div>
 
@@ -238,72 +215,7 @@
               <th class="p-2.5 text-center">BUKTI POD</th>
             </tr>
           </thead>
-          <tbody class="divide-y border-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-200">
-            <!-- ITEM 1: TERKIRIM (ADA BUKTI FOTO) -->
-            <tr>
-              <td class="p-2.5 font-mono font-bold text-cyan-600 dark:text-cyan-400">SPK-2026-0891</td>
-              <td class="p-2.5 font-bold">Brosur A4 Art Paper 150gr</td>
-              <td class="p-2.5">PT Nusantara Media</td>
-              <td class="p-2.5 font-semibold text-emerald-500">5. Dikirim (Delivered)</td>
-              <td class="p-2.5">
-                <div class="w-16 sm:w-20 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                  <div class="bg-emerald-500 h-full" style="width: 100%"></div>
-                </div>
-                <span class="text-[9px] text-emerald-500 font-bold">100% Selesai</span>
-              </td>
-              <td class="p-2.5 text-center">
-                <div class="relative group inline-block cursor-pointer" onclick="openPodModal('SPK-2026-0891', 'PT Nusantara Media', 'Ibu Sarah (Receptionist)', 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80')">
-                  <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=150&q=80" alt="POD Preview" class="w-10 h-8 object-cover rounded-md border-2 border-emerald-500 shadow hover:opacity-80 transition">
-                  <span class="absolute -bottom-1 -right-1 bg-emerald-500 text-slate-950 font-black text-[7px] px-1 rounded-full">🔍</span>
-                </div>
-              </td>
-            </tr>
-
-            <!-- ITEM 2: ON PROGRESS -->
-            <tr>
-              <td class="p-2.5 font-mono font-bold text-cyan-600 dark:text-cyan-400">SPK-2026-0892</td>
-              <td class="p-2.5 font-bold">Banner Fleksi 340gr - Prompt Event</td>
-              <td class="p-2.5">CV Indah Cemerlang</td>
-              <td class="p-2.5 font-semibold text-cyan-500">2. Produksi Cetak</td>
-              <td class="p-2.5">
-                <div class="w-16 sm:w-20 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                  <div class="bg-cyan-500 h-full" style="width: 60%"></div>
-                </div>
-                <span class="text-[9px] text-cyan-500 font-bold">60% Cetak</span>
-              </td>
-              <td class="p-2.5 text-center text-slate-400 italic text-[9px]">Belum Kirim</td>
-            </tr>
-
-            <!-- ITEM 3: PAKING -->
-            <tr>
-              <td class="p-2.5 font-mono font-bold text-cyan-600 dark:text-cyan-400">SPK-2026-0893</td>
-              <td class="p-2.5 font-bold">Stiker Vinyl Cut Out A3+</td>
-              <td class="p-2.5">Toko Kopi Bersama</td>
-              <td class="p-2.5 font-semibold text-purple-500">4. Area Paking</td>
-              <td class="p-2.5">
-                <div class="w-16 sm:w-20 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                  <div class="bg-purple-500 h-full" style="width: 90%"></div>
-                </div>
-                <span class="text-[9px] text-purple-500 font-bold">90% Paking</span>
-              </td>
-              <td class="p-2.5 text-center text-slate-400 italic text-[9px]">Belum Kirim</td>
-            </tr>
-
-            <!-- ITEM 4: FINISHING SUB-OUT -->
-            <tr>
-              <td class="p-2.5 font-mono font-bold text-cyan-600 dark:text-cyan-400">SPK-2026-0890</td>
-              <td class="p-2.5 font-bold">Buku Yasin Cover Beludru</td>
-              <td class="p-2.5">Bpk. H. Ahmad</td>
-              <td class="p-2.5 font-semibold text-amber-500">3. Finishing Sub-Out</td>
-              <td class="p-2.5">
-                <div class="w-16 sm:w-20 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                  <div class="bg-amber-500 h-full" style="width: 20%"></div>
-                </div>
-                <span class="text-[9px] text-amber-500 font-bold">20% Selesai</span>
-              </td>
-              <td class="p-2.5 text-center text-slate-400 italic text-[9px]">Belum Kirim</td>
-            </tr>
-          </tbody>
+              <tbody id="dashboardTableBody" class="divide-y border-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-200"></tbody>
         </table>
       </div>
     </div>
@@ -351,6 +263,17 @@
   </div>
 
   <script>
+    function getJobs() {
+      return JSON.parse(localStorage.getItem('printtrack_jobs') || '[]');
+    }
+
+    function getSelectedSpk() {
+      const jobs = getJobs();
+      const selected = localStorage.getItem('printtrack_selected');
+      if (selected && jobs.some(item => item.spkNo === selected)) return selected;
+      return jobs[0]?.spkNo || '';
+    }
+
     function updateThemeUI() {
       const isDark = document.documentElement.classList.contains('dark');
       document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
@@ -373,7 +296,172 @@
     function searchClientOrder(e) {
       e.preventDefault();
       const val = document.getElementById('clientSpkInput').value;
-      alert(`Melacak data SPK Sisi Klien: ${val}`);
+      const jobs = getJobs();
+      if (jobs.some(j => j.spkNo === val)) {
+        localStorage.setItem('printtrack_selected', val);
+        renderClientTracking();
+      } else {
+        alert("Nomor SPK tidak ditemukan!");
+      }
+    }
+
+    function formatQty(value, unit) {
+      return `${Number(value || 0).toLocaleString('id-ID')} ${unit || 'Lembar'}`;
+    }
+
+    function getStageMeta(step) {
+      const stages = [
+        { label: 'Terima', color: 'emerald' },
+        { label: 'Produksi', color: 'cyan' },
+        { label: 'Finishing', color: 'amber' },
+        { label: 'Paking', color: 'purple' },
+        { label: 'Selesai', color: 'emerald' }
+      ];
+      return stages[step] || stages[0];
+    }
+
+    function renderClientTracking() {
+      const jobs = getJobs();
+      const selected = getSelectedSpk();
+      const job = jobs.find(item => item.spkNo === selected);
+      if (!job) return;
+
+      const stageIndex = Math.min(4, Math.max(0, Number(job.stage || 0)));
+      const stage = getStageMeta(stageIndex);
+      const total = Number(job.targetQty || 0);
+      
+      // Calculate real progress based on completion fields
+      let currentProgressQty = 0;
+      if (stageIndex === 1) currentProgressQty = job.completedQty || 0;
+      else if (stageIndex === 2) currentProgressQty = job.completedFinishingQty || 0;
+      else if (stageIndex >= 3) currentProgressQty = total;
+
+      const progressPct = total > 0 ? Math.round((currentProgressQty / total) * 100) : 0;
+
+      document.getElementById('clientSpkInput').value = job.spkNo;
+      document.getElementById('clientSpkBadge').innerText = job.spkNo;
+      document.getElementById('clientJobTitle').innerText = job.jobTitle;
+      document.getElementById('clientCustomer').innerText = `(${job.customer})`;
+      document.getElementById('clientStageBadge').innerText = `TAHAP: ${stage.label.toUpperCase()}`;
+      document.getElementById('clientStageBadge').className = `border text-[10px] font-bold px-2.5 py-0.5 rounded-full ${stage.color === 'emerald' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30' : stage.color === 'cyan' ? 'bg-cyan-500/10 text-cyan-600 border-cyan-500/30' : stage.color === 'amber' ? 'bg-amber-500/10 text-amber-600 border-amber-500/30' : 'bg-purple-500/10 text-purple-600 border-purple-500/30'}`;
+
+      const timeline = document.getElementById('timelineStages');
+      timeline.innerHTML = Array.from({ length: 5 }, (_, idx) => {
+        const active = idx <= stageIndex;
+        const style = active ? {
+          emerald: 'bg-emerald-500 text-slate-950',
+          cyan: 'bg-cyan-500 text-slate-950',
+          amber: 'bg-amber-500 text-slate-950',
+          purple: 'bg-purple-500 text-slate-950'
+        }[getStageMeta(idx).color] : 'bg-slate-300 dark:bg-slate-800 text-slate-600 dark:text-slate-400';
+        
+        const isCurrent = idx === stageIndex;
+        return `
+          <div class="space-y-1 ${active ? '' : 'opacity-40'}">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full ${style} font-bold flex items-center justify-center text-xs ${isCurrent ? 'animate-pulse' : ''}">${active ? '✓' : idx + 1}</div>
+            <div class="font-bold">${getStageMeta(idx).label}</div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('clientProgressText').innerText = `${currentProgressQty.toLocaleString('id-ID')} / ${total.toLocaleString('id-ID')} ${job.unit || 'Lbr'} Selesai`;
+      document.getElementById('clientProgressBar').style.width = `${progressPct}%`;
+      document.getElementById('clientProgressBar').className = `h-full ${stage.color === 'emerald' ? 'bg-emerald-500' : stage.color === 'cyan' ? 'bg-cyan-500' : stage.color === 'amber' ? 'bg-amber-500' : 'bg-purple-500'}`;
+    }
+
+    function renderKpis() {
+      const jobs = getJobs();
+      const totalQty = jobs.reduce((sum, job) => sum + Number(job.targetQty || 0), 0);
+      const totalSelesai = jobs.filter(j => j.stage === 4).length;
+      
+      document.getElementById('kpiSpkCount').innerText = `${jobs.length} SPK`;
+      document.getElementById('kpiPrintTotal').innerHTML = `${totalQty.toLocaleString('id-ID')} <span class="text-[10px] font-normal">Lembar</span>`;
+      document.getElementById('kpiSubout').innerText = `${totalSelesai} SPK`;
+      document.getElementById('kpiVendorInfo').innerText = `Selesai Kirim`;
+    }
+
+    function renderTable() {
+      const jobs = getJobs();
+      const tbody = document.getElementById('dashboardTableBody');
+      tbody.innerHTML = jobs.map((job) => {
+        const stageIndex = Math.min(4, Math.max(0, Number(job.stage || 0)));
+        const stage = getStageMeta(stageIndex);
+        const total = job.targetQty || 1;
+        let done = 0;
+        if (stageIndex === 1) done = job.completedQty || 0;
+        else if (stageIndex === 2) done = job.completedFinishingQty || 0;
+        else if (stageIndex >= 3) done = total;
+        
+        const progress = Math.min(100, Math.round((done / total) * 100));
+        const stageColor = stage.color === 'emerald' ? 'text-emerald-500' : stage.color === 'cyan' ? 'text-cyan-500' : stage.color === 'amber' ? 'text-amber-500' : 'text-purple-500';
+        
+        return `
+          <tr>
+            <td class="p-2.5 font-mono font-bold text-cyan-600 dark:text-cyan-400">${job.spkNo}</td>
+            <td class="p-2.5 font-bold">${job.jobTitle}</td>
+            <td class="p-2.5">${job.customer}</td>
+            <td class="p-2.5 font-semibold ${stageColor}">${stage.label}</td>
+            <td class="p-2.5">
+              <div class="w-16 sm:w-20 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="h-full ${stage.color === 'emerald' ? 'bg-emerald-500' : stage.color === 'cyan' ? 'bg-cyan-500' : stage.color === 'amber' ? 'bg-amber-500' : 'bg-purple-500'}" style="width: ${progress}%"></div>
+              </div>
+              <span class="text-[9px] ${stageColor} font-bold">${progress}%</span>
+            </td>
+            <td class="p-2.5 text-center">
+              ${job.podImage ? `
+                <div class="relative group inline-block cursor-pointer" onclick="openPodModal('${job.spkNo}', '${job.customer}', '${job.penerima || 'Sarah'}', '${job.podImage}')">
+                  <img src="${job.podImage}" class="w-10 h-8 object-cover rounded-md border-2 border-emerald-500 shadow hover:opacity-80 transition">
+                  <span class="absolute -bottom-1 -right-1 bg-emerald-500 text-slate-950 font-black text-[7px] px-1 rounded-full">🔍</span>
+                </div>
+              ` : '<span class="text-slate-400 italic text-[9px]">Belum POD</span>'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function drawCharts() {
+      const jobs = getJobs();
+      const stageCounts = [0,0,0,0,0];
+      jobs.forEach(job => {
+        const idx = Math.min(4, Math.max(0, Number(job.stage ?? 2)));
+        stageCounts[idx] += 1;
+      });
+
+      const barCtx = document.getElementById('barChartProduksi').getContext('2d');
+      if (window.barChartInstance) window.barChartInstance.destroy();
+      window.barChartInstance = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+          datasets: [
+            { label: 'Bagus (Lembar)', data: [1200, 1900, 1500, 2200, 1800, 2500, 1100], backgroundColor: '#06b6d4', borderRadius: 4 },
+            { label: 'Afval (Lembar)', data: [30, 50, 20, 80, 40, 60, 15], backgroundColor: '#ef4444', borderRadius: 4 }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { display: false } }, y: { grid: { color: '#334155' } } } }
+      });
+
+      const doughnutCtx = document.getElementById('doughnutStatus').getContext('2d');
+      if (window.doughnutChartInstance) window.doughnutChartInstance.destroy();
+      window.doughnutChartInstance = new Chart(doughnutCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['1. Terima', '2. Produksi', '3. Finishing', '4. Paking', '5. Dikirim'],
+          datasets: [{ data: stageCounts, backgroundColor: ['#3b82f6', '#06b6d4', '#f59e0b', '#a855f7', '#10b981'], borderWidth: 0 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+    }
+
+    function filterTable() {
+      const input = document.getElementById('searchInput');
+      const filter = input.value.toUpperCase();
+      const rows = document.querySelectorAll('#dashboardTableBody tr');
+      rows.forEach(row => {
+        const text = row.textContent.toUpperCase();
+        row.style.display = text.includes(filter) ? '' : 'none';
+      });
     }
 
     function openPodModal(spk, klien, penerima, imgUrl) {
@@ -389,55 +477,18 @@
       document.getElementById('podModal').classList.add('hidden');
     }
 
-    function filterTable() {
-      const input = document.getElementById("searchInput");
-      const filter = input.value.toUpperCase();
-      const table = document.getElementById("spkTable");
-      const tr = table.getElementsByTagName("tr");
-
-      for (let i = 1; i < tr.length; i++) {
-        let tdSpk = tr[i].getElementsByTagName("td")[0];
-        let tdKlien = tr[i].getElementsByTagName("td")[2];
-        if (tdSpk || tdKlien) {
-          let txtSpk = tdSpk.textContent || tdSpk.innerText;
-          let txtKlien = tdKlien.textContent || tdKlien.innerText;
-          if (txtSpk.toUpperCase().indexOf(filter) > -1 || txtKlien.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
-
-    // Chart 1: Bar Chart
-    const ctxBar = document.getElementById('barChartProduksi').getContext('2d');
-    new Chart(ctxBar, {
-      type: 'bar',
-      data: {
-        labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-        datasets: [
-          { label: 'Bagus (m²)', data: [1200, 1900, 1500, 2200, 1800, 2500, 1100], backgroundColor: '#06b6d4', borderRadius: 4 },
-          { label: 'Afval (m²)', data: [30, 50, 20, 80, 40, 60, 15], backgroundColor: '#ef4444', borderRadius: 4 }
-        ]
-      },
-      options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { display: false } }, y: { grid: { color: '#334155' } } } }
-    });
-
-    // Chart 2: Doughnut Chart
-    const ctxDoughnut = document.getElementById('doughnutStatus').getContext('2d');
-    new Chart(ctxDoughnut, {
-      type: 'doughnut',
-      data: {
-        labels: ['1. Terima', '2. Produksi', '3. Finishing', '4. Paking', '5. Dikirim'],
-        datasets: [{ data: [3, 8, 6, 4, 3], backgroundColor: ['#3b82f6', '#06b6d4', '#f59e0b', '#a855f7', '#10b981'], borderWidth: 0 }]
-      },
-      options: { responsive: true, maintainAspectRatio: false }
-    });
-
     function updateChartData() {
-      alert("Memperbarui filter grafik...");
+      drawCharts();
     }
+
+    function initDashboard() {
+      renderClientTracking();
+      renderKpis();
+      renderTable();
+      drawCharts();
+    }
+
+    initDashboard();
   </script>
 </body>
 </html>

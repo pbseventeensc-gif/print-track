@@ -291,14 +291,22 @@
     }
 
     // Default Data SPK
-    let activeSpkList = JSON.parse(localStorage.getItem('activeSpkList')) || [
-      { spkNo: "SPK-2026-0891", customer: "PT Nusantara Media", material: "Art Paper 150gr", size: "A4", targetQty: 10000, unit: "Lembar", jobTitle: "Brosur Promo", image: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80" },
-      { spkNo: "SPK-2026-0892", customer: "CV Indah Cemerlang", material: "Fleksi 340gr", size: "3 x 1 m", targetQty: 50, unit: "m²", jobTitle: "Banner Event", image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80" }
+    const defaultJobs = [
+      { spkNo: "SPK-2026-0891", customer: "PT Nusantara Media", material: "Art Paper 150gr", size: "A4", targetQty: 10000, unit: "Lembar", jobTitle: "Brosur Promo", image: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80", stage: 1, status: "Produksi", completedQty: 4500, finishingReq: "Laminasi Glossy 2 Muka + Lipat 3" },
+      { spkNo: "SPK-2026-0892", customer: "CV Indah Cemerlang", material: "Fleksi 340gr", size: "3 x 1 m", targetQty: 50, unit: "m²", jobTitle: "Banner Event", image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80", stage: 1, status: "Produksi", completedQty: 0, finishingReq: "Mata Ayam 4 Sudut" },
+      { spkNo: "SPK-2026-0893", customer: "Toko Kopi Bersama", material: "Vinyl Sticker", size: "A3+", targetQty: 1200, unit: "Lembar", jobTitle: "Stiker Vinyl Cut Out", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80", stage: 2, status: "Finishing", completedQty: 1200, completedFinishingQty: 500, finishingReq: "Cutting Kiss-Cut" },
+      { spkNo: "SPK-2026-0894", customer: "Bpk. H. Ahmad", material: "Sidu / Cover Beludru", size: "A5", targetQty: 800, unit: "Lembar", jobTitle: "Buku Yasin Cover Beludru", image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80", stage: 3, status: "Paking", completedQty: 800, completedFinishingQty: 800, finishingReq: "Jilid Hardcover" }
     ];
+
+    let activeSpkList = JSON.parse(localStorage.getItem('printtrack_jobs')) || defaultJobs;
+    localStorage.setItem('printtrack_jobs', JSON.stringify(activeSpkList));
 
     function renderSpkTable() {
       const tbody = document.getElementById('spkTableBody');
       tbody.innerHTML = "";
+      
+      // Load current data
+      activeSpkList = JSON.parse(localStorage.getItem('printtrack_jobs')) || [];
 
       activeSpkList.forEach((spk, idx) => {
         const rowHtml = `
@@ -371,11 +379,16 @@
         deadline: document.getElementById('deadline').value,
         finishingReq: document.getElementById('finishingTypeReq').value,
         notes: document.getElementById('notes').value,
-        image: uploadedImgBase64
+        image: uploadedImgBase64,
+        stage: 1, // Start at Production
+        status: "Produksi",
+        completedQty: 0,
+        completedFinishingQty: 0
       };
 
       activeSpkList.unshift(newSpk);
-      localStorage.setItem('activeSpkList', JSON.stringify(activeSpkList));
+      localStorage.setItem('printtrack_jobs', JSON.stringify(activeSpkList));
+      localStorage.setItem('printtrack_selected', newSpk.spkNo);
 
       renderSpkTable();
 

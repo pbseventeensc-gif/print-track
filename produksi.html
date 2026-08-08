@@ -8,6 +8,33 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .action-btn {
+      border-radius: 0.6rem;
+      border: 1px solid rgba(148,163,184,0.45);
+      padding: 0.4rem 0.7rem;
+      font-size: 10px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(14, 116, 144, 0.12);
+    }
+    .action-btn.detail {
+      background: rgba(15, 23, 42, 0.04);
+      color: #0f172a;
+    }
+    .dark .action-btn.detail {
+      background: rgba(15,23,42,0.7);
+      color: #e2e8f0;
+      border-color: rgba(51,65,85,0.9);
+    }
+    .action-btn.primary {
+      background: linear-gradient(135deg, #22d3ee, #06b6d4);
+      color: #082f49;
+      border-color: rgba(34,211,238,0.7);
+    }
   </style>
   <script>
     if (localStorage.getItem('theme') === 'light') {
@@ -197,6 +224,39 @@
       </div>
 
     </div>
+
+    <div class="bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors space-y-4">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div>
+          <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <span>📋</span> DAFTAR SPK PRODUKSI
+          </h3>
+          <p class="text-[10px] text-slate-500 dark:text-slate-400">Ringkasan pekerjaan yang sedang diproses</p>
+        </div>
+
+        <div class="relative w-full sm:w-80">
+          <input type="text" id="searchProduksi" placeholder="Cari No SPK / Klien..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500">
+          <span class="absolute left-2.5 top-2 text-slate-400 text-xs">🔍</span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto no-scrollbar">
+        <table class="w-full text-left border-collapse text-xs whitespace-nowrap">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-mono text-[11px]">
+              <th class="p-2.5">NAMA PELANGGAN</th>
+              <th class="p-2.5">NO. SPK</th>
+              <th class="p-2.5">BAHAN</th>
+              <th class="p-2.5">UKURAN</th>
+              <th class="p-2.5">QTY</th>
+              <th class="p-2.5">DESAIN</th>
+              <th class="p-2.5 text-center">AKSI</th>
+            </tr>
+          </thead>
+          <tbody id="produksiTableBody" class="divide-y border-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-200"></tbody>
+        </table>
+      </div>
+    </div>
   </main>
 
   <script>
@@ -224,38 +284,56 @@
       else field.classList.add('hidden');
     }
 
-    // LIST SPK DARI LOCALSTORAGE
-    let spkList = JSON.parse(localStorage.getItem('activeSpkList')) || [{
-      spkNo: "SPK-2026-0891",
-      customer: "PT Nusantara Media",
-      jobTitle: "Brosur Promo Nusantara",
-      material: "Art Paper 150gr",
-      size: "A4 (21 x 29.7 cm)",
-      targetQty: 10000,
-      unit: "Lembar",
-      finishingReq: "Laminasi Glossy 2 Muka + Lipat 3",
-      image: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80"
-    }];
+    function getJobs() {
+      const jobs = JSON.parse(localStorage.getItem('printtrack_jobs') || '[]');
+      if (jobs.length === 0) {
+        // Fallback or redirection if no data
+        return [];
+      }
+      return jobs;
+    }
 
-    let selectedSpkIndex = 0;
-    let currentQty = parseInt(localStorage.getItem('produksicetakselesai')) || 0;
+    function getSelectedSpkNo() {
+      const job = localStorage.getItem('printtrack_selected');
+      const jobs = getJobs();
+      if (job && jobs.some(item => item.spkNo === job)) return job;
+      return jobs[0]?.spkNo || '';
+    }
+
+    function setSelectedSpkNo(spkNo) {
+      localStorage.setItem('printtrack_selected', spkNo);
+    }
+
+    function updateJobData(spkNo, data) {
+      const jobs = getJobs();
+      const index = jobs.findIndex(item => item.spkNo === spkNo);
+      if (index === -1) return;
+      jobs[index] = { ...jobs[index], ...data };
+      localStorage.setItem('printtrack_jobs', JSON.stringify(jobs));
+    }
+
+    let spkList = getJobs();
+    let selectedSpkIndex = Math.max(0, spkList.findIndex(item => item.spkNo === getSelectedSpkNo()));
 
     function renderProductionGrid() {
+      spkList = getJobs().filter(j => j.stage <= 1); // Only show jobs in production or earlier
       const grid = document.getElementById('spkProductionGrid');
+      const selectedNo = getSelectedSpkNo();
+      
       document.getElementById('badgeAntreanCount').innerText = `${spkList.length} SPK Antrean`;
       grid.innerHTML = "";
 
       spkList.forEach((spk, index) => {
-        const isSelected = index === selectedSpkIndex;
+        const isSelected = spk.spkNo === selectedNo;
         const cardHtml = `
-          <div onclick="selectSpk(${index})" class="cursor-pointer bg-slate-50 dark:bg-slate-900 border-2 ${isSelected ? 'border-cyan-500 bg-cyan-500/10' : 'border-slate-200 dark:border-slate-800'} p-3 rounded-xl space-y-2 hover:border-cyan-400 transition">
+          <div onclick="selectSpk('${spk.spkNo}')" class="cursor-pointer bg-slate-50 dark:bg-slate-900 border-2 ${isSelected ? 'border-cyan-500 bg-cyan-500/10' : 'border-slate-200 dark:border-slate-800'} p-3 rounded-xl space-y-2 hover:border-cyan-400 transition">
             <div class="flex justify-between items-center text-[10px]">
               <span class="font-mono font-bold text-cyan-600 dark:text-cyan-400">${spk.spkNo}</span>
               ${isSelected ? '<span class="bg-cyan-500 text-slate-950 font-bold px-1.5 py-0.5 rounded text-[8px]">TERPILIH</span>' : ''}
             </div>
             <h4 class="font-bold text-slate-900 dark:text-white text-xs truncate">${spk.jobTitle}</h4>
             <div class="w-full h-16 rounded bg-slate-800 overflow-hidden">
-              <img src="${spk.image || 'https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover">
+              <img src="${spk.image || ''}" class="w-full h-full object-cover">
             </div>
             <p class="text-[9px] text-slate-400 truncate">${spk.customer}</p>
           </div>
@@ -263,51 +341,95 @@
         grid.innerHTML += cardHtml;
       });
 
-      loadSpkDetail(selectedSpkIndex);
+      if (spkList.length) {
+          const currentSpk = spkList.find(s => s.spkNo === selectedNo) || spkList[0];
+          loadSpkDetail(currentSpk);
+      }
     }
 
-    function selectSpk(index) {
-      selectedSpkIndex = index;
-      currentQty = 0; // Reset progres cetak untuk SPK baru yang dipilih
-      localStorage.setItem('produksicetakselesai', 0);
+    function selectSpk(spkNo) {
+      setSelectedSpkNo(spkNo);
       renderProductionGrid();
+      renderSummaryGrid();
     }
 
-    function loadSpkDetail(index) {
-      const spk = spkList[index];
-      const targetQty = spk.targetQty || 10000;
+    function selectSpkFromSummary(index) {
+      const jobs = getJobs();
+      const selected = jobs[index];
+      if (!selected) return;
+      setSelectedSpkNo(selected.spkNo);
+      renderProductionGrid();
+      renderSummaryGrid();
+    }
+
+    function loadSpkDetail(spk) {
+      if (!spk) return;
+      const targetQty = spk.targetQty || 0;
+      const completedQty = spk.completedQty || 0;
 
       document.getElementById('displaySpkNo').innerText = spk.spkNo;
       document.getElementById('displayJobTitle').innerText = spk.jobTitle;
       document.getElementById('displayCustomer').innerText = `Pemesan: ${spk.customer}`;
       document.getElementById('displayMaterialSize').innerText = `${spk.material} (${spk.size})`;
-      document.getElementById('displayFinishingReq').innerText = spk.finishingReq;
+      document.getElementById('displayFinishingReq').innerText = spk.finishingReq || 'Tidak ada permintaan finishing';
       document.getElementById('displayTargetQty').innerHTML = `${parseInt(targetQty).toLocaleString('id-ID')} <span class="text-[10px] text-slate-500 font-normal">${spk.unit || 'Lbr'}</span>`;
-      
-      // PREVIEW GAMBAR YANG DIUNGGAH DI TERIMA PESANAN
-      document.getElementById('displayImg').src = spk.image || "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?auto=format&fit=crop&w=600&q=80";
+      document.getElementById('displayImg').src = spk.image || "";
 
-      renderProduksiUI(targetQty, spk.unit);
+      renderProduksiUI(targetQty, completedQty, spk.unit);
     }
 
-    function renderProduksiUI(targetQty, unit) {
-      targetQty = targetQty || spkList[selectedSpkIndex].targetQty || 10000;
-      unit = unit || spkList[selectedSpkIndex].unit || 'Lbr';
-
-      const pct = Math.round((currentQty / targetQty) * 100) || 0;
+    function renderProduksiUI(targetQty, completedQty, unit) {
+      const pct = Math.round((completedQty / targetQty) * 100) || 0;
       document.getElementById('progressBar').style.width = (pct > 100 ? 100 : pct) + '%';
       document.getElementById('pctText').innerText = (pct > 100 ? 100 : pct) + '%';
-      document.getElementById('qtyCompletedText').innerHTML = `${currentQty.toLocaleString('id-ID')} <span class="text-[10px] text-slate-400 font-normal">${unit}</span>`;
+      document.getElementById('qtyCompletedText').innerHTML = `${completedQty.toLocaleString('id-ID')} <span class="text-[10px] text-slate-400 font-normal">${unit}</span>`;
       
       if(pct >= 100) {
         document.getElementById('statusBadge').innerText = "100% SELESAI CETAK";
         document.getElementById('statusBadge').className = "bg-emerald-500 text-slate-950 font-bold text-[9px] px-2 py-0.5 rounded-full shrink-0";
       } else {
         document.getElementById('statusBadge').innerText = "PRODUKSI AKTIF (" + pct + "%)";
+        document.getElementById('statusBadge').className = "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-[9px] font-mono px-2 py-0.5 rounded-full shrink-0";
       }
     }
 
+    function renderSummaryGrid() {
+      const tbody = document.getElementById('produksiTableBody');
+      const search = document.getElementById('searchProduksi');
+      const list = getJobs().filter(item => {
+        const term = (search ? search.value : '').toLowerCase();
+        if (!term) return true;
+        return `${item.spkNo} ${item.customer} ${item.jobTitle}`.toLowerCase().includes(term);
+      });
+
+      tbody.innerHTML = list.map((spk) => {
+        const jobs = getJobs();
+        const indexInAll = jobs.findIndex(j => j.spkNo === spk.spkNo);
+        return `
+        <tr class="${spk.spkNo === getSelectedSpkNo() ? 'bg-cyan-500/5' : ''} hover:bg-slate-50 dark:hover:bg-slate-900/80 transition cursor-pointer" onclick="selectSpk('${spk.spkNo}')">
+          <td class="p-2.5 font-bold text-slate-900 dark:text-white">${spk.customer}</td>
+          <td class="p-2.5 font-mono font-bold text-cyan-600 dark:text-cyan-400">${spk.spkNo}</td>
+          <td class="p-2.5">${spk.material}</td>
+          <td class="p-2.5">${spk.size}</td>
+          <td class="p-2.5 font-bold text-cyan-600 dark:text-cyan-400">${Number(spk.targetQty || 0).toLocaleString('id-ID')} ${spk.unit || 'Lbr'}</td>
+          <td class="p-2.5 text-center">
+            <div class="inline-block rounded border-2 border-cyan-500/40 overflow-hidden shadow-sm">
+              <img src="${spk.image || ''}" alt="${spk.jobTitle}" class="w-12 h-9 object-cover">
+            </div>
+          </td>
+          <td class="p-2.5">
+            <div class="flex justify-center gap-2">
+              <button type="button" class="action-btn detail" onclick="event.stopPropagation(); selectSpk('${spk.spkNo}');">Detail</button>
+              <button type="button" class="action-btn primary" onclick="event.stopPropagation(); selectSpk('${spk.spkNo}'); window.location.href='finishing.html';">Lanjut</button>
+            </div>
+          </td>
+        </tr>
+      `}).join('') || '<tr><td colspan="7" class="p-4 text-center text-xs text-slate-500">Tidak ada data SPK yang sesuai.</td></tr>';
+    }
+
     renderProductionGrid();
+    renderSummaryGrid();
+    document.getElementById('searchProduksi')?.addEventListener('input', renderSummaryGrid);
 
     function addQty(num) {
       const input = document.getElementById('inputQty');
@@ -318,22 +440,38 @@
       e.preventDefault();
       const addedQty = parseInt(document.getElementById('inputQty').value) || 0;
       if (addedQty <= 0) return alert("Masukkan kuantitas cetak!");
-      currentQty += addedQty;
-
-      localStorage.setItem('produksicetakselesai', currentQty);
-      renderProduksiUI();
-      document.getElementById('inputQty').value = '';
-
-      alert(`✅ Progres Cetak ${spkList[selectedSpkIndex].spkNo} Diperbarui!\n+${addedQty.toLocaleString('id-ID')} Lembar (Total: ${currentQty.toLocaleString('id-ID')} Lembar).`);
+      
+      const spkNo = getSelectedSpkNo();
+      const jobs = getJobs();
+      const index = jobs.findIndex(j => j.spkNo === spkNo);
+      
+      if (index !== -1) {
+          jobs[index].completedQty = (jobs[index].completedQty || 0) + addedQty;
+          localStorage.setItem('printtrack_jobs', JSON.stringify(jobs));
+          
+          loadSpkDetail(jobs[index]);
+          document.getElementById('inputQty').value = '';
+          alert(`✅ Progres Cetak ${spkNo} Diperbarui!\n+${addedQty.toLocaleString('id-ID')} Lembar.`);
+      }
     }
 
     function kirimKeFinishing() {
-      if(currentQty <= 0) {
+      const spkNo = getSelectedSpkNo();
+      const jobs = getJobs();
+      const spk = jobs.find(j => j.spkNo === spkNo);
+      
+      if(!spk || (spk.completedQty || 0) <= 0) {
         alert("⚠️ Belum ada hasil cetak untuk dioper ke Finishing!");
         return;
       }
-      localStorage.setItem('produksicetakselesai', currentQty);
-      alert(`⏩ SPK ${spkList[selectedSpkIndex].spkNo} (${currentQty.toLocaleString('id-ID')} Lembar) resmi dioper ke Bagian Finishing!`);
+      
+      updateJobData(spkNo, {
+          stage: 2,
+          status: 'Finishing',
+          progress: 60
+      });
+
+      alert(`⏩ SPK ${spkNo} (${spk.completedQty.toLocaleString('id-ID')} Lembar) resmi dioper ke Bagian Finishing!`);
       window.location.href = "finishing.html";
     }
 

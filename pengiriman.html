@@ -8,6 +8,33 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .action-btn {
+      border-radius: 0.6rem;
+      border: 1px solid rgba(148,163,184,0.45);
+      padding: 0.4rem 0.7rem;
+      font-size: 10px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(16, 185, 129, 0.12);
+    }
+    .action-btn.detail {
+      background: rgba(15, 23, 42, 0.04);
+      color: #0f172a;
+    }
+    .dark .action-btn.detail {
+      background: rgba(15,23,42,0.7);
+      color: #e2e8f0;
+      border-color: rgba(51,65,85,0.9);
+    }
+    .action-btn.primary {
+      background: linear-gradient(135deg, #34d399, #10b981);
+      color: #022c22;
+      border-color: rgba(52,211,153,0.7);
+    }
   </style>
   <script>
     if (localStorage.getItem('theme') === 'light') {
@@ -84,6 +111,39 @@
         </div>
       </div>
     </div>
+
+    <div class="bg-white dark:bg-brandCard p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl transition-colors space-y-4">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div>
+          <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <span>📋</span> DAFTAR SPK PENGIRIMAN
+          </h3>
+          <p class="text-[10px] text-slate-500 dark:text-slate-400">Ringkasan pekerjaan yang siap dikirim atau sudah diterima klien</p>
+        </div>
+
+        <div class="relative w-full sm:w-80">
+          <input type="text" id="searchPengiriman" placeholder="Cari No SPK / Klien..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
+          <span class="absolute left-2.5 top-2 text-slate-400 text-xs">🔍</span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto no-scrollbar">
+        <table class="w-full text-left border-collapse text-xs whitespace-nowrap">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-mono text-[11px]">
+              <th class="p-2.5">NAMA PELANGGAN</th>
+              <th class="p-2.5">NO. SPK</th>
+              <th class="p-2.5">BAHAN</th>
+              <th class="p-2.5">UKURAN</th>
+              <th class="p-2.5">QTY</th>
+              <th class="p-2.5">DESAIN</th>
+              <th class="p-2.5 text-center">AKSI</th>
+            </tr>
+          </thead>
+          <tbody id="pengirimanTableBody" class="divide-y border-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-200"></tbody>
+        </table>
+      </div>
+    </div>
   </main>
 
   <script>
@@ -105,18 +165,111 @@
     }
     updateThemeUI();
 
+    function getJobs() {
+      return JSON.parse(localStorage.getItem('printtrack_jobs') || '[]');
+    }
+
+    function getSelectedSpkNo() {
+      const selected = localStorage.getItem('printtrack_selected');
+      const jobs = getJobs();
+      if (selected && jobs.some(item => item.spkNo === selected)) return selected;
+      return jobs[0]?.spkNo || '';
+    }
+
+    function setSelectedSpkNo(spkNo) {
+      localStorage.setItem('printtrack_selected', spkNo);
+    }
+
+    function updateJobData(spkNo, data) {
+      const jobs = getJobs();
+      const index = jobs.findIndex(item => item.spkNo === spkNo);
+      if (index === -1) return;
+      jobs[index] = { ...jobs[index], ...data };
+      localStorage.setItem('printtrack_jobs', JSON.stringify(jobs));
+    }
+
+    function selectPengirimanJob(spkNo) {
+      setSelectedSpkNo(spkNo);
+      renderPengirimanDetail();
+      renderSummaryGrid();
+    }
+
+    function renderPengirimanDetail() {
+      const jobs = getJobs();
+      const spkNo = getSelectedSpkNo();
+      const job = jobs.find(j => j.spkNo === spkNo) || jobs[0];
+      if (!job) return;
+
+      document.getElementById('inputPenerima').value = job.penerima || '';
+      document.getElementById('penerimaDisplay').innerText = job.penerima || '(Belum diterima)';
+      document.getElementById('podImageDisplay').src = job.podImage || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80';
+      document.querySelector('h2.text-xs.font-semibold').innerText = `Pratinjau Bukti Tanda Terima (${job.spkNo})`;
+    }
+
+    function renderSummaryGrid() {
+      const tbody = document.getElementById('pengirimanTableBody');
+      const search = document.getElementById('searchPengiriman');
+      const jobs = getJobs().filter(j => j.stage >= 4);
+      const summary = jobs.filter(item => {
+        const term = (search ? search.value : '').toLowerCase();
+        if (!term) return true;
+        return `${item.spkNo} ${item.customer} ${item.jobTitle}`.toLowerCase().includes(term);
+      });
+
+      tbody.innerHTML = summary.map((item) => {
+        const isSelected = item.spkNo === getSelectedSpkNo();
+        return `
+          <tr class="${isSelected ? 'bg-emerald-500/5' : ''} hover:bg-slate-50 dark:hover:bg-slate-900/80 transition cursor-pointer" onclick="selectPengirimanJob('${item.spkNo}')">
+            <td class="p-2.5 font-bold text-slate-900 dark:text-white">${item.customer}</td>
+            <td class="p-2.5 font-mono font-bold text-cyan-600 dark:text-cyan-400">${item.spkNo}</td>
+            <td class="p-2.5">${item.material}</td>
+            <td class="p-2.5">${item.size || 'A4'}</td>
+            <td class="p-2.5 font-bold text-emerald-600 dark:text-emerald-400">${Number(item.targetQty || 0).toLocaleString('id-ID')} ${item.unit || 'Lbr'}</td>
+            <td class="p-2.5 text-center">
+              <div class="inline-block rounded border-2 border-emerald-500/40 overflow-hidden shadow-sm">
+                <img src="${item.image || ''}" alt="${item.jobTitle}" class="w-12 h-9 object-cover">
+              </div>
+            </td>
+            <td class="p-2.5">
+              <div class="flex justify-center gap-2">
+                <button type="button" class="action-btn detail" onclick="event.stopPropagation(); selectPengirimanJob('${item.spkNo}');">Detail</button>
+                <button type="button" class="action-btn primary" onclick="event.stopPropagation(); updateJobData('${item.spkNo}', {stage: 5, status: 'Selesai', progress: 100}); alert('SPK ${item.spkNo} Selesai!'); renderSummaryGrid();">Selesai</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('') || '<tr><td colspan="7" class="p-4 text-center text-xs text-slate-500">Tidak ada data SPK yang sesuai.</td></tr>';
+    }
+
+    renderPengirimanDetail();
+    renderSummaryGrid();
+    document.getElementById('searchPengiriman')?.addEventListener('input', renderSummaryGrid);
+
     function previewImage(event) {
       const reader = new FileReader();
       reader.onload = function() {
+        const spkNo = getSelectedSpkNo();
         document.getElementById('podImageDisplay').src = reader.result;
+        updateJobData(spkNo, { podImage: reader.result });
       }
       reader.readAsDataURL(event.target.files[0]);
     }
+    
     function updatePOD(e) {
       e.preventDefault();
+      const spkNo = getSelectedSpkNo();
       const penerima = document.getElementById('inputPenerima').value;
+      
+      updateJobData(spkNo, { 
+          penerima: penerima,
+          stage: 5,
+          status: 'Selesai',
+          progress: 100
+      });
+      
       document.getElementById('penerimaDisplay').innerText = penerima;
-      alert(`Bukti Penerimaan SPK-2026-0891 Diperbarui!`);
+      alert(`Bukti Penerimaan ${spkNo} Diperbarui!`);
+      renderSummaryGrid();
     }
   </script>
 </body>
